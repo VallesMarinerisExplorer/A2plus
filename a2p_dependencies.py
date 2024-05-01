@@ -450,7 +450,7 @@ class Dependency():
             foreignAxis = foreignDep.refAxisEnd.sub(foreignDep.refPoint)
             angle1 = abs(foreignAxis.getAngle(rigAxis))
             angle2 = math.pi-angle1
-            #
+            print("Angle 1" + str(angle1) + "Angle2" + str(angle2))
             if angle1<=angle2:
                 axis = rigAxis.cross(foreignAxis)
             else:
@@ -724,13 +724,17 @@ class DependencyAxial(Dependency):
 
     def getMovement(self):
         if not self.Enabled: return None, None
-
+        destinationAxis = self.foreignDependency.refAxisEnd.sub(self.foreignDependency.refPoint)
+        foreignAxis = self.foreignDependency.refPoint
         vec1 = self.foreignDependency.refPoint.sub(self.refPoint)
         ownAxis = self.refAxisEnd.sub(self.refPoint)
+
         dot = vec1.dot(ownAxis)
+
         parallelToAxisVec = ownAxis.normalize().multiply(dot)
+
         moveVector = vec1.sub(parallelToAxisVec)
-        return self.refPoint.add(parallelToAxisVec), moveVector
+        return self.refPoint.add(parallelToAxisVec), moveVector, destinationAxis,foreignAxis
 
     def adjustRefPoints(self,obj,sub,refPoint,axis):
         if sub.startswith("Edge"): return refPoint

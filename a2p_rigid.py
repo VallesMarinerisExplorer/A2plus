@@ -321,9 +321,16 @@ class Rigid():
         self.spin = None
 
         for dep in self.dependencies:
-            refPoint, moveVector = dep.getMovement()
+            # print(dep.Type)
+            if dep.Type == 'axial':
+                refPoint, moveVector, destinationAxis, foreignAxis = dep.getMovement()
+                print("Destination Axis:\n")
+                print(destinationAxis)
+                print("Foreign Axis:\n")
+                print(foreignAxis)
+            else:
+                refPoint, moveVector, _,_ = dep.getMovement()
             if refPoint is None or moveVector is None: continue     # Should not happen
-
             depRefPoints.append(refPoint)
             depMoveVectors.append(moveVector)
 
@@ -345,6 +352,8 @@ class Rigid():
 
             # Accumulate all movements for later average calculations
             self.moveVectorSum += moveVector
+            # print("MOVE\n")
+            # print(self.moveVectorSum)
 
         # Calculate the average of all movements
         num_vectors = len(depMoveVectors)
@@ -380,7 +389,10 @@ class Rigid():
             if self.spin is None: self.spin = Base.Vector(0,0,0)
 
             for dep in self.dependencies:
+                # print(dir(dep))
                 rotation = dep.getRotation(solver)
+                # print("Rotation\n")
+                # print(rotation)
                 if rotation is None: continue       # No rotation for that dep
 
                 # Accumulate all rotations for later average calculation
@@ -392,6 +404,8 @@ class Rigid():
 
         # Calculate max rotation error
         if self.spin is not None:
+            # print("SPIN\n")
+            # print(self.spin)
             axisErr = self.spin.Length
             if axisErr > self.maxAxisError : self.maxAxisError = axisErr
 
