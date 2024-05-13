@@ -322,12 +322,32 @@ class Rigid():
 
         for dep in self.dependencies:
             # print(dep.Type)
+            link_info_dict = {}
+
             if dep.Type == 'axial':
                 refPoint, moveVector, destinationAxis, foreignAxis = dep.getMovement()
-                print("Destination Axis:\n")
-                print(destinationAxis)
-                print("Foreign Axis:\n")
+                childstring = str(dep.constraint.ParentTreeObject.Name)
+
+                # Problem is label can be different than the name (and is in this case)
+                ChildObj = FreeCAD.ActiveDocument.getObject(childstring)
+                ParentObj = FreeCAD.ActiveDocument.getObject(str(dep.constraint.Object2))
+
+                # print(ParentObj.Placement)
+                print(ChildObj.Placement)
                 print(foreignAxis)
+                # print(destinationAxis)
+                childPlacement = ChildObj.Placement.Base
+                parentPlacement = ParentObj.Placement.Base
+
+                link_info_dict[ChildObj.Name] = {
+                    "parent_object": ParentObj.Name,
+                    "childPlacement": childPlacement,
+                    "parentPlacement": parentPlacement,
+                    "destination_axis": destinationAxis,
+                    "foreign_axis": foreignAxis
+                }
+
+
             else:
                 refPoint, moveVector, _,_ = dep.getMovement()
             if refPoint is None or moveVector is None: continue     # Should not happen
@@ -352,8 +372,6 @@ class Rigid():
 
             # Accumulate all movements for later average calculations
             self.moveVectorSum += moveVector
-            # print("MOVE\n")
-            # print(self.moveVectorSum)
 
         # Calculate the average of all movements
         num_vectors = len(depMoveVectors)
@@ -408,6 +426,8 @@ class Rigid():
             # print(self.spin)
             axisErr = self.spin.Length
             if axisErr > self.maxAxisError : self.maxAxisError = axisErr
+
+        return link_info_dict
 
     def updateCachedState(self, newPlacement):
         """
