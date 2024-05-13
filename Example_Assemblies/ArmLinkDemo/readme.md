@@ -8,3 +8,5 @@ Also right now you need to select child and then parent when creating the constr
 # PyBullet Assembly (What it does look like, for this axis, Z I think. Lines up correctly when on the X axis)
 ![PyBullet Assembly (What it does look like, for this axis)](PyBullet_ArmLink.png)
 
+# PyBullet Assembly X axis lined up correctly
+![PyBullet Assembly X axis lined up correctly](PyBullet_ArmLinkXAxis.png)
