@@ -1,3 +1,9 @@
+# A2plusplus (Fork)
+This fork aims to improve A2Plus (used to create FreeCAD assemblies) by 
+1. Writing new joints into a Universal Robot Definition File (URDF) that can be used by PyBullet, which is a physics and robotics framework that likely has better performance than the current A2Plus solver.
+2. Updating the movement and simulation of component positions in FreeCAD using PyBullet, allowing for more complicated and smoother moving assemblies for larger numbers of components. Below is documentation on A2plus:
+
+
 <a href="https://github.com/kbwbe/A2plus"><img src="https://github.com/kbwbe/A2plus/blob/master/icons/a2p_Workbench.svg" height="100px" width="100px"></a>
 # A2plus
 [Documentation](https://wiki.freecadweb.org/A2plus_Workbench) • 
