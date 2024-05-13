@@ -85,6 +85,7 @@ class SolverSystem():
         self.maxAxisError = 0.0
         self.maxSingleAxisError = 0.0
         self.unmovedParts = []
+        self.baselink = False
         # Initialize cache dictionary to store positions of rigids and their solutions
         self.rigid_positions_cache = {}
 
@@ -143,6 +144,212 @@ class SolverSystem():
             for fc in faultyConstraintList:
                 FreeCAD.Console.PrintMessage(translate("A2plus", "Remove faulty constraint '{}'").format(fc.Label) + "\n")
                 doc.removeObject(fc.Name)
+
+    def export_obj_w_autoscale(self):
+        for shape in ShapeList1:
+            filesize = 100000000
+            scale = 0.1
+            while filesize > 400000:
+
+                Draft.clone(FreeCAD.ActiveDocument.getObject(shape))
+                if shape != "Body":
+                    shapemod = shape[2:]
+                    modstop = shapemod.find("_")
+                    shapemod = shapemod[:modstop]
+                else:
+                    shapemod = FreeCAD.ActiveDocument.Label
+
+                FreeCAD.ActiveDocument.getObject("Clone").Scale = (scale, scale, scale)
+
+                scale = scale / 10
+
+                MeshExportName = str(FreeCAD.ActiveDocument.Label) + "/" + shapemod + ".obj"
+                filesize = os.path.getsize(str(FreeCAD.ActiveDocument.Label) + "/" + shapemod + ".obj")
+
+                FreeCAD.ActiveDocument.recompute()
+                __objs__ = []
+                __objs__.append(FreeCAD.ActiveDocument.getObject("Clone"))
+                Mesh.export(__objs__, MeshExportName)
+                del __objs__
+                FreeCAD.ActiveDocument.removeObject('Clone')
+
+    def export_obj_no_autoscale(self, shape):
+        import Mesh
+        import Draft
+        MeshExportName = "C:/Users/" + str(getpass.getuser()) + "/" + str(FreeCAD.ActiveDocument.Label) + "/" + shape + ".obj"
+        __objs__ = []
+        __objs__.append(FreeCAD.ActiveDocument.getObject(shape))
+        Mesh.export(__objs__, MeshExportName)
+        del __objs__
+
+    def prettify_urdf(self, urdf_file):
+        """
+        Prettify the URDF file by adding newlines after each tag.
+
+        Parameters:
+            urdf_file (str): The path to the URDF file.
+
+        Returns:
+            None
+        """
+        import xml.dom.minidom as mini
+        import getpass
+        totalPath = "C:\\Users\\" + str(getpass.getuser()) + "\\" + str(FreeCAD.ActiveDocument.Label) + "\\" + urdf_file
+        # Parse the URDF file
+        doc = mini.parse(totalPath)
+
+        # Add indentation
+        pretty_urdf_content = doc.toprettyxml(indent="    ")
+
+        # Write the prettified URDF back to the file
+        with open(totalPath, "w") as f:
+            f.write(pretty_urdf_content)
+
+    def create_urdf(self, base_link_name, urdf_file):
+        # """
+        # Create a URDF file with a single base link and no joints, and export the mesh as an OBJ file.
+        #
+        # Parameters:
+        #     base_link_name (str): The name of the base link.
+        #     urdf_file (str): The path to the URDF file to be created.
+        #     obj_file (str): The path to the OBJ file to be created.
+        #
+        # Returns:
+        #     None
+        # """
+        import os
+        import xml.etree.ElementTree as ET
+        import Mesh
+        from math import radians
+        obj_file = str(FreeCAD.ActiveDocument.Objects[0].Name) + ".obj"
+        # Create directory if it doesn't exist
+        directory = "C:\\Users\\" + str(getpass.getuser()) + "\\" + str(FreeCAD.ActiveDocument.Label)
+        os.makedirs(directory, exist_ok=True)
+
+        # Create URDF root element
+        root = ET.Element("robot", name="robot")
+        base_link = ET.SubElement(root, "link", name=str(FreeCAD.ActiveDocument.Objects[0].Name))
+        # Visual Geometry (Mesh)
+        visual = ET.SubElement(base_link, "visual")
+        geometry = ET.SubElement(visual, "geometry")
+        visualmesh = ET.SubElement(geometry, "mesh")
+        visualmesh.attrib["filename"] = str(FreeCAD.ActiveDocument.Objects[0].Name) + ".obj"
+        origin1 = ET.SubElement(visual, "origin")
+        origin1.set("rpy", str(-radians(FreeCAD.ActiveDocument.Objects[0].Placement.Rotation.getYawPitchRoll()[2])) + " "
+                    + str(-radians(FreeCAD.ActiveDocument.Objects[0].Placement.Rotation.getYawPitchRoll()[1])) + " " + str(
+            -radians(FreeCAD.ActiveDocument.Objects[0].Placement.Rotation.getYawPitchRoll()[0])))
+        origin1.set("rpy", str(-radians(FreeCAD.ActiveDocument.Objects[0].Placement.Rotation.getYawPitchRoll()[2])) + " "
+                    + str(-radians(FreeCAD.ActiveDocument.Objects[0].Placement.Rotation.getYawPitchRoll()[1])) + " "
+                    + str(-radians(FreeCAD.ActiveDocument.Objects[0].Placement.Rotation.getYawPitchRoll()[0])))
+
+        # Material
+        material = ET.SubElement(visual, "material", name="visual_material")  # Add name attribute to material
+        color = ET.SubElement(material, "color")
+        color.attrib["rgba"] = "1 0 0 1"  # Red color, with alpha value 1 (fully opaque)
+
+        # Inertial Properties
+        inertial = ET.SubElement(base_link, "inertial")
+        mass = ET.SubElement(inertial, "mass", value="1")
+        origin_inertial = ET.SubElement(inertial, "origin", xyz="0 0 0", rpy="0 0 0")
+        inertia = ET.SubElement(inertial, "inertia", ixx="1", ixy="0", ixz="0", iyy="1", iyz="0", izz="1")
+
+        # Collision Geometry (Mesh)
+        collision = ET.SubElement(base_link, "collision")
+        geometry2 = ET.SubElement(collision, "geometry")
+        collision_mesh = ET.SubElement(geometry2, "mesh")
+        collision_mesh.attrib["filename"] = str(FreeCAD.ActiveDocument.Objects[0].Name) + ".obj"
+        origin_collision = ET.SubElement(collision, "origin", xyz="0 0 0", rpy="0 0 0")
+
+        MeshExportName = "C:/Users/" + str(getpass.getuser()) + "/" + str(FreeCAD.ActiveDocument.Label) + "/" + obj_file
+        __objs__ = []
+        __objs__.append(FreeCAD.ActiveDocument.Objects[0])
+        Mesh.export(__objs__, MeshExportName)
+
+        # Write URDF file
+        urdf_path = directory + "\\" + urdf_file
+        tree = ET.ElementTree(root)
+        with open(urdf_path, "wb") as f:
+            tree.write(f)
+
+        self.baselink = True
+
+    def append_joint_to_urdf(self, urdf_file, linkinfo):
+        """
+        Append joint data to a URDF file.
+
+        Parameters:
+            urdf_file (str): The path to the URDF file.
+            linkinfo (dict): Dictionary containing joint information.
+
+        Returns:
+            None
+        """
+        # LOOKS LIKE CHILD TO PARENT WORKS BUT NOT PARENT TO CHILD LINKING
+        import xml.etree.ElementTree as ET
+        from math import radians
+        totalpath = "C:\\Users\\" + str(getpass.getuser()) + "\\" + str(FreeCAD.ActiveDocument.Label) + "\\" + urdf_file
+
+        tree = ET.parse(totalpath)
+        root = tree.getroot()
+        child_link_name, _ = list(linkinfo.items())[-1]
+
+        parent_link_name = linkinfo[next(iter(linkinfo))]['parent_object']
+        foreign_axis = linkinfo[next(iter(linkinfo))]['foreign_axis']
+        destination_axis = linkinfo[next(iter(linkinfo))]['destination_axis']
+        ChildObjPlacement = FreeCAD.ActiveDocument.getObject(child_link_name).Placement
+        # print(ChildObjPlacement.Base)
+        joint_name = f"{parent_link_name}_to_{child_link_name}"
+        joint = ET.Element("joint", name=joint_name, type="revolute")
+        parent = ET.SubElement(joint, "parent", link=parent_link_name)
+        child = ET.SubElement(joint, "child", link=child_link_name)
+        origin = ET.SubElement(joint, "origin", rpy="0 0 0",
+                               xyz=f"{foreign_axis.x} {foreign_axis.y} {foreign_axis.z}")
+        axis = ET.SubElement(joint, "axis",
+                             xyz=f"{destination_axis.x} {destination_axis.y} {destination_axis.z}")
+        limit = ET.SubElement(joint, "limit", velocity="10000000")
+
+        root.append(joint)
+
+        # ADD LINK
+        volume = FreeCAD.ActiveDocument.getObject(child_link_name).Shape.Volume / 1000000000  # Convert volume from mm^3 to m^3
+        m = FreeCAD.ActiveDocument.getObject(child_link_name).Shape.MatrixOfInertia
+        ixx = "{:.6f}".format(m.A[0])
+        ixy = "{:.6f}".format(m.A[1])
+        ixz = "{:.6f}".format(m.A[2])
+        iyy = "{:.6f}".format(m.A[5])
+        iyz = "{:.6f}".format(m.A[6])
+        izz = "{:.6f}".format(m.A[10])
+
+        child_link = ET.Element("link", name=child_link_name)
+        visual = ET.SubElement(child_link, "visual")
+        origin1 = ET.SubElement(visual, "origin")
+        print(destination_axis)
+        # SIGN ON SECOND ENTRY IS FLIPPED FOR SOME REASON
+        # THE DESTINATION AXIS IS THE UNIT VECTOR THAT THE CHILD OBJECT HAS BEEN ROTATED TO WITH RESPECT
+        # TO HOW IT WAS LAID OUT ORIGINALLY IN THE ORIGINAL FREECAD DOCUMENT
+        origin1.set("xyz", str(-ChildObjPlacement.Base[0]-foreign_axis[2]) + " " + str(ChildObjPlacement.Base[2]-foreign_axis[1])
+                    + " " + str(-ChildObjPlacement.Base[1]-foreign_axis[0]))
+        origin1.set("rpy", str(-radians(ChildObjPlacement.Rotation.getYawPitchRoll()[2])) + " "
+                    + str(-radians(ChildObjPlacement.Rotation.getYawPitchRoll()[1])) + " " + str(-radians(ChildObjPlacement.Rotation.getYawPitchRoll()[0])))
+        geometry = ET.SubElement(visual, "geometry")
+
+        mesh = ET.SubElement(geometry, "mesh")
+        mesh.attrib["filename"] = str(child_link_name) + ".obj"
+
+        inertial = ET.SubElement(child_link, "inertial")
+        mass = ET.SubElement(inertial, "mass", value="1")
+        origin = ET.SubElement(inertial, "origin", xyz="0 0 0")
+        inertia = ET.SubElement(inertial, "inertia", ixx=ixx, ixy=ixy, ixz=ixz, iyy=iyy, iyz=iyz, izz=izz)
+
+        # Add collision geometry
+        collision = ET.SubElement(child_link, "collision")
+        geometry2 = ET.SubElement(collision, "geometry")
+        collision_mesh = ET.SubElement(geometry2, "mesh")
+        collision_mesh.attrib["filename"] = child_link_name + ".obj"
+
+        root.append(child_link)
+        tree.write(totalpath)
+
 
     def loadSystem(self,doc, matelist=None):
         self.clear()
@@ -241,6 +448,7 @@ class SolverSystem():
             return
 
         for rig in self.rigids:
+
             rig.calcSpinCenter()
             rig.calcRefPointsBoundBoxSize()
 
@@ -457,7 +665,7 @@ class SolverSystem():
             return
         self.assignParentship(doc)
         while True:
-            systemSolved = self.calculateChain(doc)
+            systemSolved, linkinfo = self.calculateChain(doc)
             if self.level_of_accuracy == 1:
                 self.detectUnmovedParts()   # do only once here. It can fail at higher accuracy levels
                                             # where not a final solution is required.
@@ -468,6 +676,17 @@ class SolverSystem():
                 self.level_of_accuracy+=1
                 if self.level_of_accuracy > len(self.getSolverControlData()):
                     self.solutionToParts(doc)
+                    # print(linkinfo)
+                    urdf_file = str(FreeCAD.ActiveDocument.Label) + ".urdf"
+
+                    if self.baselink == False:
+                        self.create_urdf("ArmLink_001",urdf_file)
+                        self.baselink = True
+                    self.append_joint_to_urdf(urdf_file, linkinfo)
+                    self.prettify_urdf(urdf_file)
+                    child_link_name, _ = list(linkinfo.items())[-1]
+                    self.export_obj_no_autoscale(child_link_name)
+
                     break
                 self.mySOLVER_POS_ACCURACY = self.getSolverControlData()[self.level_of_accuracy][0]
                 self.mySOLVER_SPIN_ACCURACY = self.getSolverControlData()[self.level_of_accuracy][1]
@@ -600,7 +819,8 @@ to a fixed part!
                 for rig in addList:
                     rig.updateCachedState(rig.placement)
                 workList.extend(addList)
-                solutionFound = self.calculateWorkList(doc, workList)
+                solutionFound, linkinfo1 = self.calculateWorkList(doc, workList)
+
                 if not solutionFound:
                     return False
             else:
@@ -608,8 +828,8 @@ to a fixed part!
 
             if a2plib.SOLVER_ONESTEP > 2:
                 break
-            
-        return True
+
+        return True, linkinfo1
 
     def calculateWorkList(self, doc, workList):
         reqPosAccuracy = self.mySOLVER_POS_ACCURACY
@@ -643,7 +863,8 @@ to a fixed part!
             # First calculate all the movement vectors
             for w in workList:
                 w.moved = True
-                w.calcMoveData(doc, self)
+                linkinfo = w.calcMoveData(doc, self)
+                # print(linkinfo)
                 if w.maxPosError > maxPosError:
                     maxPosError = w.maxPosError
                 if w.maxAxisError > maxAxisError:
@@ -704,8 +925,9 @@ to a fixed part!
 
             if self.stepCount > SOLVER_MAXSTEPS:
                 Msg(translate("A2plus", "Reached max calculations count: {}").format(SOLVER_MAXSTEPS) + "\n")
-                return False
-        return True
+                return False, _
+        # print(linkinfo)
+        return True, linkinfo
 
     def solutionToParts(self,doc):
         for rig in self.rigids:
