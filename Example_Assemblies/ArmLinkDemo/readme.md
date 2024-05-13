@@ -5,6 +5,6 @@ Also right now you need to select child and then parent when creating the constr
 # FreeCAD Assembly (What it should look like)
 ![FreeCAD Assembly (What it should look like)](FreeCAD_ArmLink.png)
 
-# PyBullet Assembly (What it does look like, for this axis)
+# PyBullet Assembly (What it does look like, for this axis, Z I think. Lines up correctly when on the X axis)
 ![PyBullet Assembly (What it does look like, for this axis)](PyBullet_ArmLink.png)
 
