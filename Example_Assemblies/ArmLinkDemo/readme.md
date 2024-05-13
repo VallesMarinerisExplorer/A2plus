@@ -2,8 +2,9 @@ This is a simple demo to ensure accurate joint positioning/offsets/calibration u
 
 Also right now you need to select child and then parent when creating the constraints. If you do this backwards it will not load correctly in PyBullet (for now).
 
+# FreeCAD Assembly (What it should look like)
+![FreeCAD Assembly (What it should look like)](FreeCAD_ArmLink.png)
 
-![FreeCAD Assembly] (What it should look like)](FreeCAD_ArmLink.png)
-
-![PyBullet Assembly] (What it does look like, for this axis)](PyBullet_ArmLink.png)
+# PyBullet Assembly (What it does look like, for this axis)
+![PyBullet Assembly (What it does look like, for this axis)](PyBullet_ArmLink.png)
 
