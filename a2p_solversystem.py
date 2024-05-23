@@ -235,12 +235,8 @@ class SolverSystem():
         visualmesh = ET.SubElement(geometry, "mesh")
         visualmesh.attrib["filename"] = str(FreeCAD.ActiveDocument.Objects[0].Name) + ".obj"
         origin1 = ET.SubElement(visual, "origin")
-        origin1.set("rpy", str(-radians(FreeCAD.ActiveDocument.Objects[0].Placement.Rotation.getYawPitchRoll()[2])) + " "
-                    + str(-radians(FreeCAD.ActiveDocument.Objects[0].Placement.Rotation.getYawPitchRoll()[1])) + " " + str(
-            -radians(FreeCAD.ActiveDocument.Objects[0].Placement.Rotation.getYawPitchRoll()[0])))
-        origin1.set("rpy", str(-radians(FreeCAD.ActiveDocument.Objects[0].Placement.Rotation.getYawPitchRoll()[2])) + " "
-                    + str(-radians(FreeCAD.ActiveDocument.Objects[0].Placement.Rotation.getYawPitchRoll()[1])) + " "
-                    + str(-radians(FreeCAD.ActiveDocument.Objects[0].Placement.Rotation.getYawPitchRoll()[0])))
+        origin1.set("xyz","0 0 0")
+        origin1.set("rpy", "0 0 0")
 
         # Material
         material = ET.SubElement(visual, "material", name="visual_material")  # Add name attribute to material
@@ -303,7 +299,7 @@ class SolverSystem():
         parent = ET.SubElement(joint, "parent", link=parent_link_name)
         child = ET.SubElement(joint, "child", link=child_link_name)
         origin = ET.SubElement(joint, "origin", rpy="0 0 0",
-                               xyz=f"{foreign_axis.x} {foreign_axis.y} {foreign_axis.z}")
+                               xyz="0 0 0")
         axis = ET.SubElement(joint, "axis",
                              xyz=f"{destination_axis.x} {destination_axis.y} {destination_axis.z}")
         limit = ET.SubElement(joint, "limit", velocity="10000000")
@@ -327,10 +323,8 @@ class SolverSystem():
         # SIGN ON SECOND ENTRY IS FLIPPED FOR SOME REASON
         # THE DESTINATION AXIS IS THE UNIT VECTOR THAT THE CHILD OBJECT HAS BEEN ROTATED TO WITH RESPECT
         # TO HOW IT WAS LAID OUT ORIGINALLY IN THE ORIGINAL FREECAD DOCUMENT
-        origin1.set("xyz", str(-ChildObjPlacement.Base[0]-foreign_axis[2]) + " " + str(ChildObjPlacement.Base[2]-foreign_axis[1])
-                    + " " + str(-ChildObjPlacement.Base[1]-foreign_axis[0]))
-        origin1.set("rpy", str(-radians(ChildObjPlacement.Rotation.getYawPitchRoll()[2])) + " "
-                    + str(-radians(ChildObjPlacement.Rotation.getYawPitchRoll()[1])) + " " + str(-radians(ChildObjPlacement.Rotation.getYawPitchRoll()[0])))
+        origin1.set("xyz", "0 0 0")
+        origin1.set("rpy", "0 0 0")
         geometry = ET.SubElement(visual, "geometry")
 
         mesh = ET.SubElement(geometry, "mesh")
