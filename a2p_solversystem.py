@@ -670,10 +670,11 @@ class SolverSystem():
                 self.level_of_accuracy+=1
                 if self.level_of_accuracy > len(self.getSolverControlData()):
                     self.solutionToParts(doc)
-                    # print(linkinfo)
-                    urdf_file = str(FreeCAD.ActiveDocument.Label) + ".urdf"
 
-                    if self.baselink == False:
+                    urdf_file = str(FreeCAD.ActiveDocument.Label) + ".urdf"
+                    directory = "C:\\Users\\" + str(getpass.getuser()) + "\\" + str(FreeCAD.ActiveDocument.Label)
+                    urdf_path = directory + "\\" + urdf_file
+                    if os.path.exists(urdf_path) == False:
                         self.create_urdf("ArmLink_001",urdf_file)
                         self.baselink = True
                     self.append_joint_to_urdf(urdf_file, linkinfo)
