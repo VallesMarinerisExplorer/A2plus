@@ -5,3 +5,10 @@ In this workbench, after you have unzipped it to Mod and open the a2plustest2.fc
 button
 
 ![Text](screenshot3.png)
+
+You can click on the arrows to move linearly and click on the arc dot to rotate
+
+A new URDF is created (or at least updated) every time you add an axial constraint with this workbench. This URDF can be used in pybullet.
+
+To create an axial constraint for this demo, click on the two axial surfaces of each object that you want to constrain.
+![Text](Screenshot4.png)
