@@ -281,6 +281,26 @@ class SolverSystem():
         Returns:
             None
         """
+        def LastLinkXYZ(root, last_link_name):
+            for link in root.findall('link'):
+                if link.get('name') == last_link_name:
+                    visual = link.find('visual')
+                    if visual is not None:
+                        origin = visual.find('origin')
+                        if origin is not None:
+                            xyz = origin.get('xyz')
+                            if xyz:
+                                xyz_values = list(map(float, xyz.split()))
+                                print(f"Position of the last link ({last_link_name}): {xyz_values}")
+                                return xyz_values
+                            else:
+                                print(f"Origin tag found, but no xyz attribute in link {last_link_name}.")
+                        else:
+                            print(f"No origin tag found in the visual element of link {last_link_name}.")
+                    else:
+                        print(f"No visual element found in link {last_link_name}.")
+                    break
+
         # LOOKS LIKE CHILD TO PARENT WORKS BUT NOT PARENT TO CHILD LINKING
         import xml.etree.ElementTree as ET
         from math import radians
@@ -309,12 +329,28 @@ class SolverSystem():
         foreign_axis = linkinfo[next(iter(linkinfo))]['foreign_axis']
         destination_axis = linkinfo[next(iter(linkinfo))]['destination_axis']
         ChildObjPlacement = FreeCAD.ActiveDocument.getObject(self.child_link_name).Placement
+        ParentObjPlacement = FreeCAD.ActiveDocument.getObject(self.parent_link_name).Placement
+
         joint_name = f"{self.parent_link_name}_to_{self.child_link_name}"
         joint = ET.Element("joint", name=joint_name, type="revolute")
         parent = ET.SubElement(joint, "parent", link=self.parent_link_name)
         child = ET.SubElement(joint, "child", link=self.child_link_name)
-        origin = ET.SubElement(joint, "origin", rpy="0 0 0",
-                               xyz="0 0 0")
+
+        """ORIGIN IS NEGATIVE OF FOREIGN AXIS"""
+        """JOINT XYZ IS FOREIGN AXIS"""
+        # origin = ET.SubElement(joint, "origin", rpy="0 0 0",
+        #                        xyz="0 0 0")
+        if len(links) == 1:
+            origin = ET.SubElement(joint, "origin", rpy="0 0 0",
+                                   xyz=str(foreign_axis[0]) + " " + str(foreign_axis[1]) + " " + str(
+                                       foreign_axis[2]))
+
+        else:
+            xyzlast = LastLinkXYZ(root,self.parent_link_name)
+            origin = ET.SubElement(joint, "origin", rpy="0 0 0",
+                                   xyz=str(xyzlast[0]+foreign_axis[0]) + " " + str(xyzlast[1]+foreign_axis[1]) + " " + str(xyzlast[2]+
+                                           foreign_axis[2]))
+
         axis = ET.SubElement(joint, "axis",
                              xyz=f"{destination_axis.x} {destination_axis.y} {destination_axis.z}")
         limit = ET.SubElement(joint, "limit", velocity="10000000")
@@ -338,7 +374,8 @@ class SolverSystem():
         # SIGN ON SECOND ENTRY IS FLIPPED FOR SOME REASON
         # THE DESTINATION AXIS IS THE UNIT VECTOR THAT THE CHILD OBJECT HAS BEEN ROTATED TO WITH RESPECT
         # TO HOW IT WAS LAID OUT ORIGINALLY IN THE ORIGINAL FREECAD DOCUMENT
-        origin1.set("xyz", "0 0 0")
+        # print(foreign_axis)
+        origin1.set("xyz", str(-foreign_axis[0]) + " " + str(-foreign_axis[1]) + " " + str(-foreign_axis[2]))
         origin1.set("rpy", "0 0 0")
         geometry = ET.SubElement(visual, "geometry")
 
