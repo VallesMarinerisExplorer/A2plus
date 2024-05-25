@@ -6,7 +6,7 @@ This fork aims to improve A2Plus (used to create FreeCAD assemblies) by
 ### FreeCAD A2Plus Assembly:
 ![Image](freecadchain.png)
 
-### PyBullet Robot (Assembly):
+### Exported PyBullet Robot (Assembly):
 ![Image](pybulletchain.png)
 
 ### Check  out [Arm Link Demo](https://github.com/VallesMarinerisExplorer/A2plus/tree/master/Example_Assemblies/ArmLinkDemo) for a demo.
