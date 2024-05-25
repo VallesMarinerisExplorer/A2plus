@@ -680,6 +680,9 @@ class SolverSystem():
             if self.level_of_accuracy == 1:
                 self.detectUnmovedParts()   # do only once here. It can fail at higher accuracy levels
                                             # where not a final solution is required.
+            if linkinfo == 99999:
+                # If the constraint is created between two child objects
+                break
             if a2plib.SOLVER_ONESTEP > 0:
                 systemSolved = True
                 break
@@ -838,9 +841,11 @@ to a fixed part!
 
             if a2plib.SOLVER_ONESTEP > 2:
                 break
-
-        return True, linkinfo1
-
+        try:
+            return True, linkinfo1
+        except:
+            print("You cannot constrain two child links together. Please select at least one parent link.")
+            return True, 99999
     def calculateWorkList(self, doc, workList):
         reqPosAccuracy = self.mySOLVER_POS_ACCURACY
         reqSpinAccuracy = self.mySOLVER_SPIN_ACCURACY
