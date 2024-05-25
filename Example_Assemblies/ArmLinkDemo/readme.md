@@ -13,8 +13,8 @@ A new URDF is created (or at least updated) every time you add an axial constrai
 To create an axial constraint for this demo, click on the two axial surfaces of each object that you want to constrain.
 ![Text](Screenshot4.png)
 
-While these are still highlighted, click the axial constraint button in the workbench top menu bar and you will have your constraint and your new URDF file!
-![Text](axialconstraint.png)
+While these are still highlighted, click the axial constraint button
+![Text](axialconstraint.png)  in the workbench top menu bar and you will have your constraint and your new URDF file!
 
 The more constraints you make, the more the URDF will be updated. There is no logic (yet) to check if the link already exists so if you have already created the 
 urdf, delete a constraint and add another between the same two objects there will probably be an error.
