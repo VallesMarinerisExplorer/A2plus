@@ -176,7 +176,7 @@ class SolverSystem():
     def export_obj_no_autoscale(self, shape):
         import Mesh
         import Draft
-        MeshExportName = "C:/Users/" + str(getpass.getuser()) + "/" + str(FreeCAD.ActiveDocument.Label) + "/" + shape + ".obj"
+        MeshExportName = "C:/Users/" + str(os.getlogin()) + "/" + str(FreeCAD.ActiveDocument.Label) + "/" + shape + ".obj"
         __objs__ = []
         __objs__.append(FreeCAD.ActiveDocument.getObject(shape))
         Mesh.export(__objs__, MeshExportName)
@@ -193,8 +193,8 @@ class SolverSystem():
             None
         """
         import xml.dom.minidom as mini
-        import getpass
-        totalPath = "C:\\Users\\" + str(getpass.getuser()) + "\\" + str(FreeCAD.ActiveDocument.Label) + "\\" + urdf_file
+
+        totalPath = "C:\\Users\\" + str(os.getlogin()) + "\\" + str(FreeCAD.ActiveDocument.Label) + "\\" + urdf_file
         # Parse the URDF file
         doc = mini.parse(totalPath)
 
@@ -217,13 +217,14 @@ class SolverSystem():
         # Returns:
         #     None
         # """
+        print("CREATING NEW URDF")
         import os
         import xml.etree.ElementTree as ET
         import Mesh
         from math import radians
         obj_file = str(FreeCAD.ActiveDocument.Objects[0].Name) + ".obj"
         # Create directory if it doesn't exist
-        directory = "C:\\Users\\" + str(getpass.getuser()) + "\\" + str(FreeCAD.ActiveDocument.Label)
+        directory = "C:\\Users\\" + str(os.getlogin()) + "\\" + str(FreeCAD.ActiveDocument.Label)
         os.makedirs(directory, exist_ok=True)
 
         # Create URDF root element
@@ -256,7 +257,7 @@ class SolverSystem():
         collision_mesh.attrib["filename"] = str(FreeCAD.ActiveDocument.Objects[0].Name) + ".obj"
         origin_collision = ET.SubElement(collision, "origin", xyz="0 0 0", rpy="0 0 0")
 
-        MeshExportName = "C:/Users/" + str(getpass.getuser()) + "/" + str(FreeCAD.ActiveDocument.Label) + "/" + obj_file
+        MeshExportName = "C:/Users/" + str(os.getlogin()) + "/" + str(FreeCAD.ActiveDocument.Label) + "/" + obj_file
         __objs__ = []
         __objs__.append(FreeCAD.ActiveDocument.Objects[0])
         Mesh.export(__objs__, MeshExportName)
@@ -266,7 +267,7 @@ class SolverSystem():
         tree = ET.ElementTree(root)
         with open(urdf_path, "wb") as f:
             tree.write(f)
-
+        print("URDF Saved to: " + urdf_path)
         self.baselink = True
 
     def append_joint_to_urdf(self, urdf_file, linkinfo):
@@ -283,21 +284,35 @@ class SolverSystem():
         # LOOKS LIKE CHILD TO PARENT WORKS BUT NOT PARENT TO CHILD LINKING
         import xml.etree.ElementTree as ET
         from math import radians
-        totalpath = "C:\\Users\\" + str(getpass.getuser()) + "\\" + str(FreeCAD.ActiveDocument.Label) + "\\" + urdf_file
+
+        totalpath = "C:\\Users\\" + str(os.getlogin()) + "\\" + str(FreeCAD.ActiveDocument.Label) + "\\" + urdf_file
 
         tree = ET.parse(totalpath)
         root = tree.getroot()
-        child_link_name, _ = list(linkinfo.items())[-1]
+        # Find all links in the URDF
+        links = []
+        for link in root.findall('link'):
+            links.append(link.get('name'))
+        link1, _ = list(linkinfo.items())[-1]
+        link2 = linkinfo[next(iter(linkinfo))]['parent_object']
+        if link1 in links:
+            self.parent_link_name = link1
+            self.child_link_name = link2
+        elif link2 in links:
+            self.parent_link_name = link2
+            self.child_link_name = link1
+        else:
+            print("Error. Something is wrong with your joint/constraint. This probably means you selected two child links instead of "
+                  "one child and one parent. There is no continuous constraint chain back to the base link.")
 
-        parent_link_name = linkinfo[next(iter(linkinfo))]['parent_object']
+
         foreign_axis = linkinfo[next(iter(linkinfo))]['foreign_axis']
         destination_axis = linkinfo[next(iter(linkinfo))]['destination_axis']
-        ChildObjPlacement = FreeCAD.ActiveDocument.getObject(child_link_name).Placement
-        # print(ChildObjPlacement.Base)
-        joint_name = f"{parent_link_name}_to_{child_link_name}"
+        ChildObjPlacement = FreeCAD.ActiveDocument.getObject(self.child_link_name).Placement
+        joint_name = f"{self.parent_link_name}_to_{self.child_link_name}"
         joint = ET.Element("joint", name=joint_name, type="revolute")
-        parent = ET.SubElement(joint, "parent", link=parent_link_name)
-        child = ET.SubElement(joint, "child", link=child_link_name)
+        parent = ET.SubElement(joint, "parent", link=self.parent_link_name)
+        child = ET.SubElement(joint, "child", link=self.child_link_name)
         origin = ET.SubElement(joint, "origin", rpy="0 0 0",
                                xyz="0 0 0")
         axis = ET.SubElement(joint, "axis",
@@ -307,8 +322,8 @@ class SolverSystem():
         root.append(joint)
 
         # ADD LINK
-        volume = FreeCAD.ActiveDocument.getObject(child_link_name).Shape.Volume / 1000000000  # Convert volume from mm^3 to m^3
-        m = FreeCAD.ActiveDocument.getObject(child_link_name).Shape.MatrixOfInertia
+        volume = FreeCAD.ActiveDocument.getObject(self.child_link_name).Shape.Volume / 1000000000  # Convert volume from mm^3 to m^3
+        m = FreeCAD.ActiveDocument.getObject(self.child_link_name).Shape.MatrixOfInertia
         ixx = "{:.6f}".format(m.A[0])
         ixy = "{:.6f}".format(m.A[1])
         ixz = "{:.6f}".format(m.A[2])
@@ -316,10 +331,10 @@ class SolverSystem():
         iyz = "{:.6f}".format(m.A[6])
         izz = "{:.6f}".format(m.A[10])
 
-        child_link = ET.Element("link", name=child_link_name)
+        child_link = ET.Element("link", name=self.child_link_name)
         visual = ET.SubElement(child_link, "visual")
         origin1 = ET.SubElement(visual, "origin")
-        print(destination_axis)
+        # print(destination_axis)
         # SIGN ON SECOND ENTRY IS FLIPPED FOR SOME REASON
         # THE DESTINATION AXIS IS THE UNIT VECTOR THAT THE CHILD OBJECT HAS BEEN ROTATED TO WITH RESPECT
         # TO HOW IT WAS LAID OUT ORIGINALLY IN THE ORIGINAL FREECAD DOCUMENT
@@ -328,7 +343,7 @@ class SolverSystem():
         geometry = ET.SubElement(visual, "geometry")
 
         mesh = ET.SubElement(geometry, "mesh")
-        mesh.attrib["filename"] = str(child_link_name) + ".obj"
+        mesh.attrib["filename"] = str(self.child_link_name) + ".obj"
 
         inertial = ET.SubElement(child_link, "inertial")
         mass = ET.SubElement(inertial, "mass", value="1")
@@ -339,10 +354,12 @@ class SolverSystem():
         collision = ET.SubElement(child_link, "collision")
         geometry2 = ET.SubElement(collision, "geometry")
         collision_mesh = ET.SubElement(geometry2, "mesh")
-        collision_mesh.attrib["filename"] = child_link_name + ".obj"
+        collision_mesh.attrib["filename"] = self.child_link_name + ".obj"
 
         root.append(child_link)
         tree.write(totalpath)
+        print("URDF Saved to: " + totalpath)
+
 
 
     def loadSystem(self,doc, matelist=None):
@@ -672,15 +689,13 @@ class SolverSystem():
                     self.solutionToParts(doc)
 
                     urdf_file = str(FreeCAD.ActiveDocument.Label) + ".urdf"
-                    directory = "C:\\Users\\" + str(getpass.getuser()) + "\\" + str(FreeCAD.ActiveDocument.Label)
+                    directory = "C:\\Users\\" + str(os.getlogin()) + "\\" + str(FreeCAD.ActiveDocument.Label)
                     urdf_path = directory + "\\" + urdf_file
                     if os.path.exists(urdf_path) == False:
                         self.create_urdf("ArmLink_001",urdf_file)
-                        self.baselink = True
                     self.append_joint_to_urdf(urdf_file, linkinfo)
                     self.prettify_urdf(urdf_file)
-                    child_link_name, _ = list(linkinfo.items())[-1]
-                    self.export_obj_no_autoscale(child_link_name)
+                    self.export_obj_no_autoscale(self.child_link_name)
 
                     break
                 self.mySOLVER_POS_ACCURACY = self.getSolverControlData()[self.level_of_accuracy][0]
@@ -859,7 +874,6 @@ to a fixed part!
             for w in workList:
                 w.moved = True
                 linkinfo = w.calcMoveData(doc, self)
-                # print(linkinfo)
                 if w.maxPosError > maxPosError:
                     maxPosError = w.maxPosError
                 if w.maxAxisError > maxAxisError:
@@ -921,7 +935,6 @@ to a fixed part!
             if self.stepCount > SOLVER_MAXSTEPS:
                 Msg(translate("A2plus", "Reached max calculations count: {}").format(SOLVER_MAXSTEPS) + "\n")
                 return False, _
-        # print(linkinfo)
         return True, linkinfo
 
     def solutionToParts(self,doc):
