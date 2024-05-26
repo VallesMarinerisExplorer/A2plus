@@ -96,7 +96,9 @@ p.connect(p.DIRECT)  # Use p.GUI for a graphical interface
 p.resetSimulation()
 
 # Load the FreeCAD object's position and orientation into pybullet
-box_id = p.loadURDF("C:\\Users\\" + str(os.getlogin()) + "\\T_Handle_Demo\\T_handle.urdf", basePosition=position, baseOrientation=quaternion)
+# This assumes the .fcstd and .urdf files are in the same directory
+urdfpath = FreeCAD.ActiveDocument.getFileName().replace(".FCStd",".urdf")
+box_id = p.loadURDF(urdfpath, basePosition=position, baseOrientation=quaternion)
 
 # Set initial angular velocity
 initial_angular_velocity = [3, -10, 1]  # Replace with your desired angular velocity [x, y, z]
