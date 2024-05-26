@@ -1,5 +1,5 @@
-# If you do not already have pybullet installed run this script and it will install it for you
-# It should work if you have python 3.8 - 3.11
+# If you do not already have pybullet installed in FreeCAD run this script and it will install it for you
+# It should work if you have python 3.8 - 3.11 for FreeCAD
 
 import FreeCAD
 FreeCADPath = FreeCAD.__path__[1]
