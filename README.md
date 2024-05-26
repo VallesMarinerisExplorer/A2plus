@@ -9,7 +9,7 @@ This fork aims to improve FreeCAD's A2Plus (used to create FreeCAD assemblies) b
 ### Exported PyBullet Robot (Assembly):
 ![Image](pybulletchain.png)
 
-### Check  out [Arm Link Demo](https://github.com/VallesMarinerisExplorer/A2plus/tree/master/Example_Assemblies/ArmLinkDemo) for a demo.
+### Check  out [Arm Link Demo](https://github.com/VallesMarinerisExplorer/A2plus/tree/master/Example_Assemblies/ArmLinkDemo) for a demo of creating URDFs and [T Handle Demo](https://github.com/VallesMarinerisExplorer/A2plus/tree/master/FreeCAD_PyBullet_Integration_Demo) for a demo of moving objects in FreeCAD using PyBullet
 
 
 
