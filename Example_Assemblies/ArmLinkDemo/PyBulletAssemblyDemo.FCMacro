@@ -16,12 +16,12 @@ p.resetSimulation()
 # This assumes the .fcstd and .urdf files are in the same directory
 
 urdfpath = "C:\\Users\\" + str(os.getlogin()) + "\\" + str(FreeCAD.ActiveDocument.Label) + "\\" + str(FreeCAD.ActiveDocument.Label) + ".urdf"
-robot = p.loadURDF(urdfpath, basePosition=[0,0,0], baseOrientation=[0,0,0,1])
+robot = p.loadURDF(urdfpath, basePosition=[0,0,0], baseOrientation=[0,0,0,1],useFixedBase=True)
 p.changeDynamics(robot, 0, angularDamping=0.0)
 p.changeDynamics(robot, 1, angularDamping=0.0)
 
 i = 0
-while i <= 3000:
+while i <= 2000:
 
     l = 0
     baseval = True
@@ -29,13 +29,13 @@ while i <= 3000:
         if str(obj) == "<Part::PartFeature>" and baseval == False:
 
             pos_tuple = p.getLinkState(robot, l)[0]
-            pos = Base.Vector(pos_tuple[0], pos_tuple[1], pos_tuple[2])  # Convert tuple to Base.Vector
+            pos = Base.Vector(0,0,0)  # Convert tuple to Base.Vector
             new_quat = p.getLinkState(robot,l)[1]
-            rot = App.Rotation(new_quat[3],new_quat[0],new_quat[1],new_quat[2])    
+            rot = App.Rotation(new_quat[0],new_quat[1],new_quat[2],new_quat[3])    
             obj.Placement = FreeCAD.Placement(pos, rot)
             l+=1
         baseval = False
-    p.setJointMotorControl2(robot, 1, p.TORQUE_CONTROL, force=-5500)
+    p.setJointMotorControl2(robot, 1, p.TORQUE_CONTROL, force=-5000)
 
     FreeCAD.ActiveDocument.recompute()
     Gui.updateGui()
