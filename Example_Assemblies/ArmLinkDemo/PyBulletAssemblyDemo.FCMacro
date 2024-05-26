@@ -1,0 +1,49 @@
+import FreeCAD
+from FreeCAD import Base
+currentfilename = FreeCAD.ActiveDocument.getFileName()
+
+import pybullet as p
+import time
+import os
+
+# Initialize pybullet
+p.connect(p.DIRECT)  # Use p.GUI for a graphical interface
+
+# Create a pybullet world
+p.resetSimulation()
+
+# Load the FreeCAD object's position and orientation into pybullet
+# This assumes the .fcstd and .urdf files are in the same directory
+
+urdfpath = "C:\\Users\\" + str(os.getlogin()) + "\\" + str(FreeCAD.ActiveDocument.Label) + "\\" + str(FreeCAD.ActiveDocument.Label) + ".urdf"
+robot = p.loadURDF(urdfpath, basePosition=[0,0,0], baseOrientation=[0,0,0,1])
+p.changeDynamics(robot, 0, angularDamping=0.0)
+p.changeDynamics(robot, 1, angularDamping=0.0)
+
+i = 0
+while i <= 3000:
+
+    l = 0
+    baseval = True
+    for obj in FreeCAD.ActiveDocument.Objects:
+        if str(obj) == "<Part::PartFeature>" and baseval == False:
+
+            pos_tuple = p.getLinkState(robot, l)[0]
+            pos = Base.Vector(pos_tuple[0], pos_tuple[1], pos_tuple[2])  # Convert tuple to Base.Vector
+            new_quat = p.getLinkState(robot,l)[1]
+            rot = App.Rotation(new_quat[3],new_quat[0],new_quat[1],new_quat[2])    
+            obj.Placement = FreeCAD.Placement(pos, rot)
+            l+=1
+        baseval = False
+    p.setJointMotorControl2(robot, 1, p.TORQUE_CONTROL, force=-5500)
+
+    FreeCAD.ActiveDocument.recompute()
+    Gui.updateGui()
+    # Wait until the document has been recomputed
+    while "Recompute" in obj.State:
+        pass
+
+    p.stepSimulation()
+    time.sleep(1/240)
+
+    i += 1
