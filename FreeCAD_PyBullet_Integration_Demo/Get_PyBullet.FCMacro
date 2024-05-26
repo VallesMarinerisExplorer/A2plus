@@ -1,3 +1,6 @@
+# If you do not already have pybullet installed run this script and it will install it for you
+# It should work if you have python 3.8 - 3.11
+
 import FreeCAD
 FreeCADPath = FreeCAD.__path__[1]
 FreeCADPathbin = FreeCADPath.replace("lib","bin")
@@ -11,13 +14,16 @@ except:
     print("Installing PyBullet\n"
           "This may take a minute...")
     try:
-		import requests
+        import requests
     except subprocess.CalledProcessError as e:
         subprocess.check_call([FreeCADPath, "install", "requests"])
-	    import requests
+    try:
+	    import zipfile
+    except subprocess.CalledProcessError as e:
+         subprocess.check_call([FreeCADPath, "install", "zipfile"])
+    import requests
 	# Download the PyBullet from the expedited install repo
-    # url = "https://github.com/VallesMarinerisExplorer/tcl/archive/refs/heads/main.zip"
-	url = "https://github.com/VallesMarinerisExplorer/PyBullet_Extensions/blob/main/pybullet-download.zip"
+    url = "https://github.com/VallesMarinerisExplorer/PyBullet_Extensions/archive/refs/heads/main.zip"
     response = requests.get(url)
     response.raise_for_status()  # Raise an exception for HTTP errors
 
@@ -25,14 +31,19 @@ except:
 
     with open(filename, 'wb') as file:
         file.write(response.content)
-
+    
+    filename = FreeCADPathbin + "\\" + filename
+    print(filename)
     with zipfile.ZipFile(filename, 'r') as zip_ref:
         zip_ref.extractall(FreeCADPathbin)
 
+    with zipfile.ZipFile(r'\\?\\' + FreeCADPathbin + "\\PyBullet_Extensions-main\\pybullet-download.zip", 'r') as zip_ref:
+        zip_ref.extractall(r'\\?\\' + FreeCADPathbin + "\\PyBullet_Extensions-main")
+    
     import shutil
 
     # Define the source and destination directories
-    source_dir = FreeCADPathbin + "\\pybullet-download"
+    source_dir = r'\\?\\' + FreeCADPathbin + "\\PyBullet_Extensions-main\\pybullet-download"
 
     # Get the subfolders of the source parent directory
     subfolders = [f for f in os.listdir(source_dir) if os.path.isdir(os.path.join(source_dir, f))]
@@ -52,5 +63,9 @@ except:
         full_file_name = os.path.join(source_dir, file_name)
         if os.path.isfile(full_file_name):
             shutil.copy(full_file_name, FreeCADSitepackages)
-    shutil.rmtree(source_dir)
-    os.remove(filename)
+
+    pybversion = str(sys.version_info.major) + str(sys.version_info.minor)
+    pybulletfile = FreeCADPathbin + "\\PyBullet_Extensions-main\\pybullet.cp" +pybversion + "-win_amd64.pyd"
+    shutil.copy(pybulletfile, FreeCADSitepackages + "\\pybullet.cp" + pybversion + "-win_amd64.pyd")
+
+    import pybullet as p
