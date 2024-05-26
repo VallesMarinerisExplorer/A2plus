@@ -20,3 +20,6 @@ The more constraints you make, the more the URDF will be updated. There is no lo
 urdf, delete a constraint and add another between the same two objects there will probably be an error.
 
 The URDF should be at C:\Users\USER\a2plustest2   and you can specify this location in the pybulletURDFTest.py if you need to.
+
+PyBulletAssemblyDemo.FCMacro contained here is a macro that uses PyBullet to update the FreeCAD assembly visualization. 
+The position and orientations need to be calibrated still but it is cool to look at and experiment with.
