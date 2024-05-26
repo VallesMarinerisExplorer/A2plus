@@ -70,6 +70,7 @@ class SolverSystem():
         self.doc = None
         self.stepCount = 0
         self.rigids = []        # list of rigid bodies
+        self.linkinfo = []
         self.constraints = []
         self.objectNames = []
         self.mySOLVER_SPIN_ACCURACY = SOLVER_SPIN_ACCURACY
@@ -313,21 +314,25 @@ class SolverSystem():
         links = []
         for link in root.findall('link'):
             links.append(link.get('name'))
-        link1, _ = list(linkinfo.items())[-1]
-        link2 = linkinfo[next(iter(linkinfo))]['parent_object']
-        if link1 in links:
-            self.parent_link_name = link1
-            self.child_link_name = link2
-        elif link2 in links:
-            self.parent_link_name = link2
-            self.child_link_name = link1
-        else:
-            print("Error. Something is wrong with your joint/constraint. This probably means you selected two child links instead of "
-                  "one child and one parent. There is no continuous constraint chain back to the base link.")
+        self.links = links
+        for specificlinkinfo in linkinfo:
+            link1, _ = list(specificlinkinfo.items())[-1]
+            link2 = specificlinkinfo[next(iter(specificlinkinfo))]['parent_object']
+            """WHEN YOU CLICK PARENT TO CHILD STARTING A NEW BRANCH IT CHOOSES THE OTHER CHILD AND PARENT"""
+            """BUT WHEN YOU CLICK CHILD TO PARENT IT IS FINE"""
+            if link2 not in links:
+                self.parent_link_name = link1
+                self.child_link_name = link2
+                newlinkinfo = specificlinkinfo
+                break
+            elif link1 not in links:
+                self.parent_link_name = link2
+                self.child_link_name = link1
+                newlinkinfo = specificlinkinfo
+                break
 
-
-        foreign_axis = linkinfo[next(iter(linkinfo))]['foreign_axis']
-        destination_axis = linkinfo[next(iter(linkinfo))]['destination_axis']
+        foreign_axis = newlinkinfo[next(iter(newlinkinfo))]['foreign_axis']
+        destination_axis = newlinkinfo[next(iter(newlinkinfo))]['destination_axis']
         ChildObjPlacement = FreeCAD.ActiveDocument.getObject(self.child_link_name).Placement
         ParentObjPlacement = FreeCAD.ActiveDocument.getObject(self.parent_link_name).Placement
 
@@ -713,13 +718,16 @@ class SolverSystem():
             return
         self.assignParentship(doc)
         while True:
-            systemSolved, linkinfo = self.calculateChain(doc)
+            systemSolved, linkinfoinst = self.calculateChain(doc)
+
             if self.level_of_accuracy == 1:
                 self.detectUnmovedParts()   # do only once here. It can fail at higher accuracy levels
                                             # where not a final solution is required.
-            if linkinfo == 99999:
+            if linkinfoinst == 99999:
                 # If the constraint is created between two child objects
                 break
+            if linkinfoinst not in self.linkinfo:
+                self.linkinfo.append(linkinfoinst)
             if a2plib.SOLVER_ONESTEP > 0:
                 systemSolved = True
                 break
@@ -733,7 +741,9 @@ class SolverSystem():
                     urdf_path = directory + "\\" + urdf_file
                     if os.path.exists(urdf_path) == False:
                         self.create_urdf("ArmLink_001",urdf_file)
-                    self.append_joint_to_urdf(urdf_file, linkinfo)
+                    # for linkinfo99 in linkinfo:
+                    #     if
+                    self.append_joint_to_urdf(urdf_file, self.linkinfo)
                     self.prettify_urdf(urdf_file)
                     self.export_obj_no_autoscale(self.child_link_name)
 
@@ -870,7 +880,8 @@ to a fixed part!
                     rig.updateCachedState(rig.placement)
                 workList.extend(addList)
                 solutionFound, linkinfo1 = self.calculateWorkList(doc, workList)
-
+                # print(linkinfo1)
+                # print("")
                 if not solutionFound:
                     return False
             else:
