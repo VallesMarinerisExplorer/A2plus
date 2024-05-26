@@ -1,4 +1,6 @@
 # FreeCAD-PyBullet Simulator
+
+## Simulate Rigid Body Mechanics With Assemblies Directly in FreeCAD!
 This fork aims to improve FreeCAD's A2Plus (used to create FreeCAD assemblies) by 
 1. Writing new joints into a Universal Robot Definition File (URDF) that can be used by PyBullet, which is a physics and robotics framework that likely has better performance than the current A2Plus solver.
 2. Updating the movement and simulation of component positions in FreeCAD using PyBullet, allowing for more complicated and smoother moving assemblies for larger numbers of components.
