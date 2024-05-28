@@ -1,7 +1,5 @@
 import FreeCAD
-from FreeCAD import Base
-currentfilename = FreeCAD.ActiveDocument.getFileName()
-
+from FreeCAD import Base, Gui
 import pybullet as p
 import time
 import os
@@ -13,32 +11,72 @@ p.connect(p.DIRECT)  # Use p.GUI for a graphical interface
 p.resetSimulation()
 
 # Load the FreeCAD object's position and orientation into pybullet
-# This assumes the .fcstd and .urdf files are in the same directory
-
 urdfpath = "C:\\Users\\" + str(os.getlogin()) + "\\" + str(FreeCAD.ActiveDocument.Label) + "\\" + str(FreeCAD.ActiveDocument.Label) + ".urdf"
-robot = p.loadURDF(urdfpath, basePosition=[0,0,0], baseOrientation=[0,0,0,1],useFixedBase=True)
+robot = p.loadURDF(urdfpath, basePosition=[0,0,0], baseOrientation=[0,0,0,1], useFixedBase=True)  # Identity quaternion for base orientation
+
+# Set angular damping for the robot
 p.changeDynamics(robot, 0, angularDamping=0.0)
 p.changeDynamics(robot, 1, angularDamping=0.0)
 
-i = 0
-while i <= 2000:
+# Initial correction rotation (example: 90 degrees around the Y-axis to adjust for PyBullet to FreeCAD axis mismatch)
+correction_rotation = App.Rotation(Base.Vector(1, 0, 0), 90)
+rotation2 = App.Rotation(Base.Vector(0, 1, 0), 90)
 
+# Function to convert quaternion to FreeCAD rotation and apply correction
+def get_corrected_rotation(quat):
+    rot = App.Rotation(quat[1],quat[3], quat[2], quat[0])  # Convert quaternion to FreeCAD rotation
+    correct_rot = correction_rotation.multiply(rot)  # Apply correction rotation
+    # corrected_rot = rotation2.multiply(corrected_rot)
+    return correct_rot
+
+baseobj = FreeCAD.ActiveDocument.Objects[0]
+
+# Get base position and orientation
+pos_tuple, new_quat = p.getBasePositionAndOrientation(robot)
+pos = Base.Vector(*pos_tuple)  # Convert tuple to Base.Vector
+
+# Convert quaternion to FreeCAD rotation and apply correction
+#rot = App.Rotation(new_quat[1],new_quat[3], new_quat[0], new_quat[2])  # Convert quaternion to FreeCAD rotation
+baseobj.Placement = FreeCAD.Placement(pos, App.Rotation(1,0,0,1))
+# print(new_quat[1], new_quat[3], new_quat[0], new_quat[2])
+num_joints = p.getNumJoints(robot)
+
+i = 0
+while i <= 2500:
     l = 0
     baseval = True
+    # ArmLink003 joint axis is correct, joint axis location is incorrect
+    # ArmLink003 body orientation is 90 degrees off
     for obj in FreeCAD.ActiveDocument.Objects:
-        if str(obj) == "<Part::PartFeature>" and baseval == False:
+        if str(obj) == "<Part::PartFeature>" and not baseval:
+	
+            if l < num_joints:
+                pos_tuple = p.getLinkState(robot, l)[4]
+                pos_tuple = [pos_tuple[0],pos_tuple[1],pos_tuple[2]-215]
+                #pos_tuple[2]-=270
+                
+                pos = Base.Vector(*pos_tuple)  # Convert tuple to Base.Vector
+                
+                # Get the quaternion from PyBullet
+                new_quat = p.getLinkState(robot, l)[5]
 
-            pos_tuple = p.getLinkState(robot, l)[0]
-            pos = Base.Vector(0,0,0)  # Convert tuple to Base.Vector
-            new_quat = p.getLinkState(robot,l)[1]
-            rot = App.Rotation(new_quat[0],new_quat[1],new_quat[2],new_quat[3])    
-            obj.Placement = FreeCAD.Placement(pos, rot)
-            l+=1
+                # Convert quaternion to FreeCAD rotation and apply correction
+                # rot = get_corrected_rotation(new_quat)
+                rot = App.Rotation(new_quat[1],new_quat[3], new_quat[0], new_quat[2])  # Convert quaternion to FreeCAD rotation
+                # rot = App.Rotation(new_quat[1], new_quat[2], new_quat[3], new_quat[0])
+                obj.Placement = FreeCAD.Placement(pos, rot)
+
+                l += 1
         baseval = False
+
+    # Apply a torque to the joint (adjust as needed)
+    p.setJointMotorControl2(robot, 0, p.TORQUE_CONTROL, force=-5000)
     p.setJointMotorControl2(robot, 1, p.TORQUE_CONTROL, force=-5000)
+
 
     FreeCAD.ActiveDocument.recompute()
     Gui.updateGui()
+
     # Wait until the document has been recomputed
     while "Recompute" in obj.State:
         pass
@@ -47,3 +85,6 @@ while i <= 2000:
     time.sleep(1/240)
 
     i += 1
+
+# Disconnect PyBullet
+p.disconnect()
