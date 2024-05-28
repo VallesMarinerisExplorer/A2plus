@@ -1,0 +1,834 @@
+<?xml version="1.0" ?>
+<robot name="robot">
+    
+    
+    
+    
+    
+    
+    
+    
+    <link name="b_ArmLink1_001_">
+        
+        
+        
+        
+        
+        
+        
+        
+        <visual>
+            
+            
+            
+            
+            
+            
+            
+            
+            <geometry>
+                
+                
+                
+                
+                
+                
+                
+                
+                <mesh filename="b_ArmLink1_001_.obj"/>
+                
+                
+                
+                
+            
+            
+            
+            
+            </geometry>
+            
+            
+            
+            
+            
+            
+            
+            
+            <origin xyz="0 0 0" rpy="0 0 0"/>
+            
+            
+            
+            
+            
+            
+            
+            
+            <material name="visual_material">
+                
+                
+                
+                
+                
+                
+                
+                
+                <color rgba="1 0 0 1"/>
+                
+                
+                
+                
+            
+            
+            
+            
+            </material>
+            
+            
+            
+            
+        
+        
+        
+        
+        </visual>
+        
+        
+        
+        
+        
+        
+        
+        
+        <inertial>
+            
+            
+            
+            
+            
+            
+            
+            
+            <mass value="1"/>
+            
+            
+            
+            
+            
+            
+            
+            
+            <origin xyz="0 0 0" rpy="0 0 0"/>
+            
+            
+            
+            
+            
+            
+            
+            
+            <inertia ixx="1" ixy="0" ixz="0" iyy="1" iyz="0" izz="1"/>
+            
+            
+            
+            
+        
+        
+        
+        
+        </inertial>
+        
+        
+        
+        
+        
+        
+        
+        
+        <collision>
+            
+            
+            
+            
+            
+            
+            
+            
+            <geometry>
+                
+                
+                
+                
+                
+                
+                
+                
+                <mesh filename="b_ArmLink1_001_.obj"/>
+                
+                
+                
+                
+            
+            
+            
+            
+            </geometry>
+            
+            
+            
+            
+            
+            
+            
+            
+            <origin xyz="0 0 0" rpy="0 0 0"/>
+            
+            
+            
+            
+        
+        
+        
+        
+        </collision>
+        
+        
+        
+        
+    
+    
+    
+    
+    </link>
+    
+    
+    
+    
+    
+    
+    
+    
+    <joint name="b_ArmLink1_001__to_b_ArmLink1_001_001" type="revolute">
+        
+        
+        
+        
+        
+        
+        
+        
+        <parent link="b_ArmLink1_001_"/>
+        
+        
+        
+        
+        
+        
+        
+        
+        <child link="b_ArmLink1_001_001"/>
+        
+        
+        
+        
+        
+        
+        
+        
+        <origin rpy="0 0 0" xyz="-7.105427357601002e-15 -2.842170943040401e-14 -35.000000000000014"/>
+        
+        
+        
+        
+        
+        
+        
+        
+        <axis xyz="0.0 -4.479553950749674e-16 -1.0"/>
+        
+        
+        
+        
+        
+        
+        
+        
+        <limit velocity="10000000"/>
+        
+        
+        
+        
+    
+    
+    
+    
+    </joint>
+    
+    
+    
+    
+    
+    
+    
+    
+    <link name="b_ArmLink1_001_001">
+        
+        
+        
+        
+        
+        
+        
+        
+        <visual>
+            
+            
+            
+            
+            
+            
+            
+            
+            <origin xyz="7.105427357601002e-15 2.842170943040401e-14 35.000000000000014" rpy="0 0 0"/>
+            
+            
+            
+            
+            
+            
+            
+            
+            <geometry>
+                
+                
+                
+                
+                
+                
+                
+                
+                <mesh filename="b_ArmLink1_001_001.obj"/>
+                
+                
+                
+                
+            
+            
+            
+            
+            </geometry>
+            
+            
+            
+            
+        
+        
+        
+        
+        </visual>
+        
+        
+        
+        
+        
+        
+        
+        
+        <inertial>
+            
+            
+            
+            
+            
+            
+            
+            
+            <mass value="1"/>
+            
+            
+            
+            
+            
+            
+            
+            
+            <origin xyz="0 0 0"/>
+            
+            
+            
+            
+            
+            
+            
+            
+            <inertia ixx="23871385305.321434" ixy="0.263599" ixz="-1.589719" iyy="19061226056.076759" iyz="0.154756" izz="29531283802.605843"/>
+            
+            
+            
+            
+        
+        
+        
+        
+        </inertial>
+        
+        
+        
+        
+        
+        
+        
+        
+        <collision>
+            
+            
+            
+            
+            
+            
+            
+            
+            <geometry>
+                
+                
+                
+                
+                
+                
+                
+                
+                <mesh filename="b_ArmLink1_001_001.obj"/>
+                
+                
+                
+                
+            
+            
+            
+            
+            </geometry>
+            
+            
+            
+            
+        
+        
+        
+        
+        </collision>
+        
+        
+        
+        
+    
+    
+    
+    
+    </link>
+    
+    
+    
+    
+
+    
+    
+    
+    <joint name="b_ArmLink1_001_001_to_b_ArmLink1_001_002" type="revolute">
+        
+        
+        
+        
+        
+        
+        <parent link="b_ArmLink1_001_001"/>
+        
+        
+        
+        
+        
+        
+        <child link="b_ArmLink1_001_002"/>
+        
+        
+        
+        
+        
+        
+        <origin rpy="0 0 0" xyz="-139.99999760091296 85.00000000000009 95.5696868896485"/>
+        
+        
+        
+        
+        
+        
+        <axis xyz="0.0 -1.0 0.0"/>
+        
+        
+        
+        
+        
+        
+        <limit velocity="10000000"/>
+        
+        
+        
+    
+    
+    
+    </joint>
+    
+    
+    
+    
+    
+    
+    <link name="b_ArmLink1_001_002">
+        
+        
+        
+        
+        
+        
+        <visual>
+            
+            
+            
+            
+            
+            
+            <origin xyz="139.99999760091296 -85.00000000000006 -60.56968688964847" rpy="0 0 0"/>
+            
+            
+            
+            
+            
+            
+            <geometry>
+                
+                
+                
+                
+                
+                
+                <mesh filename="b_ArmLink1_001_002.obj"/>
+                
+                
+                
+            
+            
+            
+            </geometry>
+            
+            
+            
+        
+        
+        
+        </visual>
+        
+        
+        
+        
+        
+        
+        <inertial>
+            
+            
+            
+            
+            
+            
+            <mass value="1"/>
+            
+            
+            
+            
+            
+            
+            <origin xyz="0 0 0"/>
+            
+            
+            
+            
+            
+            
+            <inertia ixx="23871385305.321442" ixy="-1.589721" ixz="-0.263626" iyy="29531283802.605865" iyz="177.309267" izz="19061226056.076775"/>
+            
+            
+            
+        
+        
+        
+        </inertial>
+        
+        
+        
+        
+        
+        
+        <collision>
+            
+            
+            
+            
+            
+            
+            <geometry>
+                
+                
+                
+                
+                
+                
+                <mesh filename="b_ArmLink1_001_002.obj"/>
+                
+                
+                
+            
+            
+            
+            </geometry>
+            
+            
+            
+        
+        
+        
+        </collision>
+        
+        
+        
+    
+    
+    
+    </link>
+    
+    
+    
+
+    
+    
+    <joint name="b_ArmLink1_001_002_to_b_ArmLink1_001_004" type="revolute">
+        
+        
+        
+        
+        <parent link="b_ArmLink1_001_002"/>
+        
+        
+        
+        
+        <child link="b_ArmLink1_001_004"/>
+        
+        
+        
+        
+        <origin rpy="0 0 0" xyz="-140.0000036662511 97.1362988875673 85.0000016464281"/>
+        
+        
+        
+        
+        <axis xyz="0.0 1.6949655901044025e-08 -1.0"/>
+        
+        
+        
+        
+        <limit velocity="10000000"/>
+        
+        
+    
+    
+    </joint>
+    
+    
+    
+    
+    <link name="b_ArmLink1_001_004">
+        
+        
+        
+        
+        <visual>
+            
+            
+            
+            
+            <origin xyz="280.00000126716407 -182.13629888756736 -145.56968853607657" rpy="0 0 0"/>
+            
+            
+            
+            
+            <geometry>
+                
+                
+                
+                
+                <mesh filename="b_ArmLink1_001_004.obj"/>
+                
+                
+            
+            
+            </geometry>
+            
+            
+        
+        
+        </visual>
+        
+        
+        
+        
+        <inertial>
+            
+            
+            
+            
+            <mass value="1"/>
+            
+            
+            
+            
+            <origin xyz="0 0 0"/>
+            
+            
+            
+            
+            <inertia ixx="23871385305.321426" ixy="0.263626" ixz="-1.589719" iyy="19061226056.076775" iyz="0.154753" izz="29531283802.605858"/>
+            
+            
+        
+        
+        </inertial>
+        
+        
+        
+        
+        <collision>
+            
+            
+            
+            
+            <geometry>
+                
+                
+                
+                
+                <mesh filename="b_ArmLink1_001_004.obj"/>
+                
+                
+            
+            
+            </geometry>
+            
+            
+        
+        
+        </collision>
+        
+        
+    
+    
+    </link>
+    
+    
+
+    
+    <joint name="b_ArmLink1_001_004_to_b_ArmLink1_001_003" type="revolute">
+        
+        
+        <parent link="b_ArmLink1_001_004"/>
+        
+        
+        <child link="b_ArmLink1_001_003"/>
+        
+        
+        <origin rpy="0 0 0" xyz="1.220126875978167e-06 2.4288895588142623e-06 191.15919329986116"/>
+        
+        
+        <axis xyz="0.0 0.0 1.0"/>
+        
+        
+        <limit velocity="10000000"/>
+        
+    
+    </joint>
+    
+    
+    <link name="b_ArmLink1_001_003">
+        
+        
+        <visual>
+            
+            
+            <origin xyz="280.0000000470372 -182.13630131645692 -336.7288818359377" rpy="0 0 0"/>
+            
+            
+            <geometry>
+                
+                
+                <mesh filename="b_ArmLink1_001_003.obj"/>
+                
+            
+            </geometry>
+            
+        
+        </visual>
+        
+        
+        <inertial>
+            
+            
+            <mass value="1"/>
+            
+            
+            <origin xyz="0 0 0"/>
+            
+            
+            <inertia ixx="23871385305.321480" ixy="1.589721" ixz="0.263615" iyy="29531283802.605904" iyz="-0.154756" izz="19061226056.076801"/>
+            
+        
+        </inertial>
+        
+        
+        <collision>
+            
+            
+            <geometry>
+                
+                
+                <mesh filename="b_ArmLink1_001_003.obj"/>
+                
+            
+            </geometry>
+            
+        
+        </collision>
+        
+    
+    </link>
+    
+
+    <joint name="b_ArmLink1_001_003_to_b_ArmLink1_001_005" type="revolute">
+        <parent link="b_ArmLink1_001_003"/>
+        <child link="b_ArmLink1_001_005"/>
+        <origin rpy="0 0 0" xyz="140.00000004359384 94.99999969395077 88.95715332031227"/>
+        <axis xyz="0.0 1.0 0.0"/>
+        <limit velocity="10000000"/>
+    </joint>
+    <link name="b_ArmLink1_001_005">
+        <visual>
+            <origin xyz="140.00000000344335 -277.1363010104077 -425.68603515625" rpy="0 0 0"/>
+            <geometry>
+                <mesh filename="b_ArmLink1_001_005.obj"/>
+            </geometry>
+        </visual>
+        <inertial>
+            <mass value="1"/>
+            <origin xyz="0 0 0"/>
+            <inertia ixx="23871385305.321426" ixy="0.263611" ixz="-1.589717" iyy="19061226056.076763" iyz="0.154751" izz="29531283802.605850"/>
+        </inertial>
+        <collision>
+            <geometry>
+                <mesh filename="b_ArmLink1_001_005.obj"/>
+            </geometry>
+        </collision>
+    </link>
+</robot>
