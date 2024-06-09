@@ -14,7 +14,9 @@ This fork aims to improve FreeCAD's A2Plus (used to create FreeCAD assemblies) b
 ### Check  out [Arm Link Demo](https://github.com/VallesMarinerisExplorer/A2plus/tree/master/Example_Assemblies/ArmLinkDemo) to create URDFs with FreeCAD and [T Handle Demo](https://github.com/VallesMarinerisExplorer/A2plus/tree/master/FreeCAD_PyBullet_Integration_Demo) for a demo on simulating object dynamics in FreeCAD using PyBullet
 
 
-
+### Hierarchy Support
+This fork also supports the creation of assembly hierarchies in the tree structure for easier navigation. Child objects are automatically added beneath the parent object.
+![Image](Hierarchy.png)
 
 
 # Below is documentation on the existing A2plus:
