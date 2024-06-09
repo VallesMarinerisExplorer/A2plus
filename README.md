@@ -16,6 +16,7 @@ This fork aims to improve FreeCAD's A2Plus (used to create FreeCAD assemblies) b
 
 ### Hierarchy Support
 This fork also supports the creation of assembly hierarchies in the tree structure for easier navigation. Child objects are automatically added beneath the parent object.
+
 ![Image](Hierarchy.png)
 
 
