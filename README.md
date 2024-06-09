@@ -24,7 +24,7 @@ This fork also supports the creation of assembly hierarchies in the tree structu
 ![Image](Hierarchy.png)
 
 
-### Here is some additional documentation on the existing A2plus:
+### Here is some additional documentation on the existing A2plus Workbench that this project is based on:
 
 <a href="https://github.com/kbwbe/A2plus"><img src="https://github.com/kbwbe/A2plus/blob/master/icons/a2p_Workbench.svg" height="100px" width="100px"></a>
 # A2plus
