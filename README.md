@@ -15,14 +15,12 @@ This fork aims to improve FreeCAD's A2Plus (used to create FreeCAD assemblies) b
 
 
 ### Hierarchy Support
-This fork also supports the creation of assembly hierarchies in the tree structure for easier navigation. Child objects are automatically added beneath the parent object.
+This fork also supports the creation of assembly hierarchies in the tree structure for easier navigation. Child objects are automatically added beneath the parent object like this:
 
 ![Image](Hierarchy.png)
 
 
-# Below is documentation on the existing A2plus:
-
-
+### Here is some additional documentation on the existing A2plus:
 
 <a href="https://github.com/kbwbe/A2plus"><img src="https://github.com/kbwbe/A2plus/blob/master/icons/a2p_Workbench.svg" height="100px" width="100px"></a>
 # A2plus
