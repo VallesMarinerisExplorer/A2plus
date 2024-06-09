@@ -3,9 +3,9 @@
 ## Simulate Rigid Body Mechanics With Assemblies Directly in FreeCAD!
 ##### This project aims to improve FreeCAD's A2Plus assembly creation workbench by:
 
-##### 1. Writing new user-added joints to a Universal Robot Definition File (URDF) that can be used by PyBullet, a physics and robotics framework that may have better performance than the current A2Plus solver.
-##### 2. Updating the movement and simulation of component positions in FreeCAD using PyBullet, allowing for more complicated and smoother moving assemblies for larger numbers of components.
-##### 3. Adding additional assembly navigation and accesibility tools.
+1. Writing new user-added joints to a Universal Robot Definition File (URDF) that can be used by PyBullet, a physics and robotics framework that may have better performance than the current A2Plus solver.
+2. Updating the movement and simulation of component positions in FreeCAD using PyBullet, allowing for more complicated and smoother moving assemblies for larger numbers of components.
+3. Adding additional assembly navigation and accesibility tools.
 
 ### Here are some examples of assemblies created using this project
 
