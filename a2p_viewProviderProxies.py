@@ -61,6 +61,8 @@ class ConstraintViewProviderProxy:
         self.iconPath = iconPath
         self.constraintObj_name = constraintObj.Name
         constraintObj.purgeTouched()
+
+        createMirror = False
         if createMirror:
             self.mirror_name = create_constraint_mirror(
                 constraintObj,
@@ -119,7 +121,6 @@ class ConstraintViewProviderProxy:
             self.enableDeleteCounterPart = True
 
         if not self.enableDeleteCounterPart: return True # nothing more to do...
-
         # first delete the mirror...
         obj = viewObject.Object
         doc = obj.Document

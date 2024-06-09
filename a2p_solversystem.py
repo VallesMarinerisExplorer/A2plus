@@ -302,7 +302,6 @@ class SolverSystem():
                         print(f"No visual element found in link {last_link_name}.")
                     break
 
-        # LOOKS LIKE CHILD TO PARENT WORKS BUT NOT PARENT TO CHILD LINKING
         import xml.etree.ElementTree as ET
         from math import radians
 
@@ -318,8 +317,6 @@ class SolverSystem():
         for specificlinkinfo in linkinfo:
             link1, _ = list(specificlinkinfo.items())[-1]
             link2 = specificlinkinfo[next(iter(specificlinkinfo))]['parent_object']
-            """WHEN YOU CLICK PARENT TO CHILD STARTING A NEW BRANCH IT CHOOSES THE OTHER CHILD AND PARENT"""
-            """BUT WHEN YOU CLICK CHILD TO PARENT IT IS FINE"""
             if link2 not in links:
                 self.parent_link_name = link1
                 self.child_link_name = link2
@@ -331,10 +328,12 @@ class SolverSystem():
                 newlinkinfo = specificlinkinfo
                 break
 
+        # Foreign Axis has some errors sometimes
         foreign_axis = newlinkinfo[next(iter(newlinkinfo))]['foreign_axis']
         destination_axis = newlinkinfo[next(iter(newlinkinfo))]['destination_axis']
-        ChildObjPlacement = FreeCAD.ActiveDocument.getObject(self.child_link_name).Placement
-        ParentObjPlacement = FreeCAD.ActiveDocument.getObject(self.parent_link_name).Placement
+        ChildObjPlacement = FreeCAD.ActiveDocument.getObject(self.child_link_name).Placement.Base
+
+        ParentObjPlacement = FreeCAD.ActiveDocument.getObject(self.parent_link_name).Placement.Base
 
         joint_name = f"{self.parent_link_name}_to_{self.child_link_name}"
         joint = ET.Element("joint", name=joint_name, type="revolute")
@@ -343,8 +342,7 @@ class SolverSystem():
 
         """ORIGIN IS NEGATIVE OF FOREIGN AXIS"""
         """JOINT XYZ IS FOREIGN AXIS"""
-        # origin = ET.SubElement(joint, "origin", rpy="0 0 0",
-        #                        xyz="0 0 0")
+
         if len(links) == 1:
             origin = ET.SubElement(joint, "origin", rpy="0 0 0",
                                    xyz=str(foreign_axis[0]) + " " + str(foreign_axis[1]) + " " + str(

@@ -326,16 +326,21 @@ class Rigid():
 
             if dep.Type == 'axial':
                 refPoint, moveVector, destinationAxis, foreignAxis = dep.getMovement()
-                childstring = str(dep.constraint.ParentTreeObject.Name)
+
+                # Error is here v
+                # childstring = str(dep.constraint.ParentTreeObject.Name)
+                # childstring = str(dep.const raint.ParentTreeObject.Name)
+                # childstring = str(dep.constraint.parentinfo)
+                # print(childstring)
 
                 # Problem is label can be different than the name (and is in this case)
-                ChildObj = FreeCAD.ActiveDocument.getObject(childstring)
+                ChildObj = FreeCAD.ActiveDocument.getObject(str(dep.constraint.Object1))
                 ParentObj = FreeCAD.ActiveDocument.getObject(str(dep.constraint.Object2))
 
                 # print(ParentObj.Placement)
-                print(ChildObj.Placement)
-                print(foreignAxis)
-                # print(destinationAxis)
+                # print(ChildObj.Placement)
+                # print(foreignAxis)
+                # print(-foreignAxis+ChildObj.Placement.Base)
                 childPlacement = ChildObj.Placement.Base
                 parentPlacement = ParentObj.Placement.Base
 

@@ -73,7 +73,9 @@ class BasicConstraint():
 
     def create(self, selection):
         cName = a2plib.findUnusedObjectName(self.constraintBaseName)
+        print("HERE IS WHERE IT IS ADDED")
         ob = FreeCAD.activeDocument().addObject("App::FeaturePython", cName)
+        print("YOOOOOOOOOOOO")
         s1, s2 = selection
 
         self.ob1Name = s1.ObjectName
@@ -104,7 +106,9 @@ class BasicConstraint():
         self.calcInitialValues()  # override in subclass !
         self.setInitialValues()
         self.groupUnderParentTreeObject()
+        print("WHAT!")
         self.setupProxies()
+
 
     def setupProxies(self):
         c = self.constraintObject
@@ -119,11 +123,40 @@ class BasicConstraint():
 
     def groupUnderParentTreeObject(self):
         c = self.constraintObject
-        parent = FreeCAD.ActiveDocument.getObject(c.Object1)
-        c.addProperty("App::PropertyLink", "ParentTreeObject", "ConstraintInfo").ParentTreeObject = parent
-        c.setEditorMode('ParentTreeObject', 1)
-        # this is needed to trigger an update
-        parent.touch()
+
+        import os
+        urdf_file = str(FreeCAD.ActiveDocument.Label) + ".urdf"
+        totalpath = "C:\\Users\\" + str(os.getlogin()) + "\\" + str(FreeCAD.ActiveDocument.Label) + "\\" + urdf_file
+
+        if os.path.exists(totalpath):
+            import xml.etree.ElementTree as ET
+
+            tree = ET.parse(totalpath)
+            root = tree.getroot()
+            # Find all links in the URDF
+            links = []
+            for link in root.findall('link'):
+                links.append(link.get('name'))
+            if c.Object1 not in links:
+                parent = FreeCAD.ActiveDocument.getObject(c.Object2)
+                child = FreeCAD.ActiveDocument.getObject(c.Object1)
+            else:
+                parent = FreeCAD.ActiveDocument.getObject(c.Object1)
+                child = FreeCAD.ActiveDocument.getObject(c.Object2)
+        else:
+            # Well if you add something that is not a physical object into your assembly early on this will cause an error
+            parent = FreeCAD.ActiveDocument.Objects[0]
+            child = FreeCAD.ActiveDocument.Objects[1]
+
+        # Add the physical child object (not constraint) as subobject of parent
+        FreeCAD.ActiveDocument.getObject(child.Name).addProperty("App::PropertyLink", "Parent",
+                                                                 "LinkInfo").Parent = FreeCAD.ActiveDocument.getObject(parent.Name)
+
+        # Add constraint as subobject of child. This is the one I want to keep
+        c.addProperty("App::PropertyLink", "Parent", "LinkInfo").Parent = FreeCAD.ActiveDocument.getObject(child.Name)
+
+        FreeCAD.ActiveDocument.getObject(parent.Name).touch()
+        FreeCAD.ActiveDocument.recompute()
 
     def setInitialValues(self):
         c = self.constraintObject
@@ -444,6 +477,7 @@ class AxialConstraint(BasicConstraint):
         self.typeInfo = 'axial'
         self.constraintBaseName = 'axisCoincident'
         self.iconPath = ':/icons/a2p_AxialConstraint.svg'
+        # THIS IS WHERE THE FREECAD OBJECT CREATION HAPPENS
         self.create(selection)
 
     def calcInitialValues(self):
