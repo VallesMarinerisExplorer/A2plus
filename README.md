@@ -23,6 +23,8 @@ This fork also supports the creation of assembly hierarchies in the tree structu
 
 ![Image](Hierarchy.png)
 
+### Here is a link to Bullet/PyBullet for the physics simulation aspect:
+https://github.com/bulletphysics/bullet3
 
 ### Here is some additional documentation on the existing A2plus Workbench that this project is based on:
 
