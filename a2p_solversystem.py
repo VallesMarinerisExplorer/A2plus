@@ -272,6 +272,7 @@ class SolverSystem():
         self.baselink = True
 
     def append_joint_to_urdf(self, urdf_file, linkinfo):
+
         """
         Append joint data to a URDF file.
 
@@ -317,6 +318,12 @@ class SolverSystem():
         for specificlinkinfo in linkinfo:
             link1, _ = list(specificlinkinfo.items())[-1]
             link2 = specificlinkinfo[next(iter(specificlinkinfo))]['parent_object']
+
+            jointtype = specificlinkinfo[next(iter(specificlinkinfo))]['dependency_type']
+            print(jointtype)
+            print(jointtype)
+            print(jointtype)
+
             if link2 not in links:
                 self.parent_link_name = link1
                 self.child_link_name = link2
@@ -336,7 +343,11 @@ class SolverSystem():
         ParentObjPlacement = FreeCAD.ActiveDocument.getObject(self.parent_link_name).Placement.Base
 
         joint_name = f"{self.parent_link_name}_to_{self.child_link_name}"
-        joint = ET.Element("joint", name=joint_name, type="revolute")
+        if jointtype == 'axial':
+            joint = ET.Element("joint", name=joint_name, type="revolute")
+        elif jointtype == 'linear':
+            joint = ET.Element("joint", name=joint_name, type="prismatic")
+
         parent = ET.SubElement(joint, "parent", link=self.parent_link_name)
         child = ET.SubElement(joint, "child", link=self.child_link_name)
 
@@ -738,9 +749,8 @@ class SolverSystem():
                     directory = "C:\\Users\\" + str(os.getlogin()) + "\\" + str(FreeCAD.ActiveDocument.Label)
                     urdf_path = directory + "\\" + urdf_file
                     if os.path.exists(urdf_path) == False:
-                        self.create_urdf("ArmLink_001",urdf_file)
-                    # for linkinfo99 in linkinfo:
-                    #     if
+                        self.create_urdf(FreeCAD.ActiveDocument.Objects[0].Label,urdf_file)
+
                     self.append_joint_to_urdf(urdf_file, self.linkinfo)
                     self.prettify_urdf(urdf_file)
                     self.export_obj_no_autoscale(self.child_link_name)
@@ -777,6 +787,7 @@ class SolverSystem():
             Msg("===== " + translate("A2plus", "Start Solving System") + " =====\n")
 
         systemSolved = self.solveAccuracySteps(doc,matelist)
+
         if self.status == "loadingDependencyError":
             return systemSolved
         if systemSolved:
@@ -878,8 +889,7 @@ to a fixed part!
                     rig.updateCachedState(rig.placement)
                 workList.extend(addList)
                 solutionFound, linkinfo1 = self.calculateWorkList(doc, workList)
-                # print(linkinfo1)
-                # print("")
+
                 if not solutionFound:
                     return False
             else:

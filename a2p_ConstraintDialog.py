@@ -621,7 +621,7 @@ class a2p_ConstraintCollection(QtGui.QWidget):
 
         self.axialButton = QtGui.QPushButton(self.panel2)
         self.axialButton.setFixedSize(48, 48)
-        self.axialButton.setIcon(QtGui.QIcon(':/icons/a2p_AxialConstraint.svg'))
+        self.axialButton.setIcon(QtGui.QIcon(':/icons/Rotary.png'))
         self.axialButton.setIconSize(QtCore.QSize(32, 32))
         self.axialButton.setToolTip(a2p_constraints.AxialConstraint.getToolTip())
         self.axialButton.setText("")

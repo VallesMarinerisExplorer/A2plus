@@ -190,13 +190,40 @@ class a2p_AxialConstraintCommand:
 
     def GetResources(self):
         return {
-            'Pixmap': path_a2p + '/icons/a2p_AxialConstraint.svg',
-            'MenuText': translate("A2plus_Constraints", "Add AxisCoincident constraint"),
+            'Pixmap': path_a2p + '/icons/Rotary.png',
+            'MenuText': translate("A2plus_Constraints", "Create Revolute/Continuous Joint"),
             'ToolTip': a2p_constraints.AxialConstraint.getToolTip()
             }
 
 
 FreeCADGui.addCommand('a2p_AxialConstraintCommand', a2p_AxialConstraintCommand())
+
+class a2p_LinearConstraintCommand:
+    def Activated(self):
+        selection = FreeCADGui.Selection.getSelectionEx()
+        c = a2p_constraints.LinearConstraint(selection)
+        cvp = a2p_ConstraintDialog.a2p_ConstraintValuePanel(
+            c.constraintObject,
+            'createConstraint'
+            )
+        FreeCADGui.Selection.clearSelection()
+
+    def IsActive(self):
+        return a2p_constraints.LinearConstraint.isValidSelection(
+            FreeCADGui.Selection.getSelectionEx()
+            )
+
+    def GetResources(self):
+        return {
+            'Pixmap': path_a2p + '/icons/Linear.png',
+            'MenuText': translate("A2plus_Constraints", "Create Linear/Prismatic Joint"),
+            'ToolTip': a2p_constraints.AxialConstraint.getToolTip()
+            }
+
+
+FreeCADGui.addCommand('a2p_LinearConstraintCommand', a2p_LinearConstraintCommand())
+
+
 
 
 class a2p_AxisParallelConstraintCommand:

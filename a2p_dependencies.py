@@ -245,7 +245,7 @@ class Dependency():
                 dep2.refPoint = dep2.refPoint.add(offsetAdjustVec)
                 dep2.refAxisEnd = dep2.refAxisEnd.add(offsetAdjustVec)
 
-        elif c.Type == "axial":
+        elif c.Type == "axial" or c.Type == "linear":
             dep1 = DependencyAxial(c, "pointAxis")
             dep2 = DependencyAxial(c, "pointAxis")
 

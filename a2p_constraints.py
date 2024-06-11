@@ -470,13 +470,12 @@ class CircularEdgeConstraint(BasicConstraint):
                     validSelection = True
         return validSelection
 
-
-class AxialConstraint(BasicConstraint):
+class LinearConstraint(BasicConstraint):
     def __init__(self, selection):
         BasicConstraint.__init__(self, selection)
-        self.typeInfo = 'axial'
-        self.constraintBaseName = 'axisCoincident'
-        self.iconPath = ':/icons/a2p_AxialConstraint.svg'
+        self.typeInfo = 'linear'
+        self.constraintBaseName = 'Linear_prismatic'
+        self.iconPath = ':/icons/Linear.png'
         # THIS IS WHERE THE FREECAD OBJECT CREATION HAPPENS
         self.create(selection)
 
@@ -506,7 +505,73 @@ class AxialConstraint(BasicConstraint):
     @staticmethod
     def getToolTip():
         return (translate("A2plus_Constraints",
-                          "Create the Axis-to-Axis constraint (AxisCoincident)" + "\n\n" +
+                          "Create a linear prismatic joint that can move along an axis but cannot rotate around that axis" + "\n\n" +
+                          "Select:" + "\n" +
+                          "1) A linear edge or cylindrical/conical face (on a part)" + "\n" +
+                          "2) A linear edge or cylindrical/conical face (on another part)" + "\n\n" +
+                          "Non fixed axis will be aligned and moved to be coincident."
+                          ) + "\n\n" +
+                translate("A2plus_Constraints",
+                          "Button gets active after correct selection."
+                          )
+                )
+
+    @staticmethod
+    def isValidSelection(selection):
+
+        def ValidSelection(selectionExObj):
+            return cylindricalFaceSelected(selectionExObj) \
+                or LinearEdgeSelected(selectionExObj) \
+                or CircularEdgeSelected(selectionExObj)
+
+        validSelection = False
+        if len(selection) == 2:
+            s1, s2 = selection
+            if s1.ObjectName != s2.ObjectName:
+                if ValidSelection(s1) and ValidSelection(s2):
+                    validSelection = True
+        return validSelection
+
+
+
+
+
+class AxialConstraint(BasicConstraint):
+    def __init__(self, selection):
+        BasicConstraint.__init__(self, selection)
+        self.typeInfo = 'axial'
+        self.constraintBaseName = 'Revolute_continuous'
+        self.iconPath = ':/icons/Rotary.png'
+        # THIS IS WHERE THE FREECAD OBJECT CREATION HAPPENS
+        self.create(selection)
+
+    def calcInitialValues(self):
+        c = self.constraintObject
+        axis1 = getAxis(self.ob1, c.SubElement1)
+        axis2 = getAxis(self.ob2, c.SubElement2)
+        angle = math.degrees(axis1.getAngle(axis2))
+        if angle <= 90.0:
+            self.direction = "aligned"
+        else:
+            self.direction = "opposed"
+        self.lockRotation = False
+
+    @staticmethod
+    def recalculateMatingDirection(c):
+        ob1 = c.Document.getObject(c.Object1)
+        ob2 = c.Document.getObject(c.Object2)
+        axis1 = getAxis(ob1, c.SubElement1)
+        axis2 = getAxis(ob2, c.SubElement2)
+        angle = math.degrees(axis1.getAngle(axis2))
+        if angle <= 90.0:
+            c.directionConstraint = "aligned"
+        else:
+            c.directionConstraint = "opposed"
+
+    @staticmethod
+    def getToolTip():
+        return (translate("A2plus_Constraints",
+                          "Create a rotary joint that cannot move along the rotation axis" + "\n\n" +
                           "Select:" + "\n" +
                           "1) A linear edge or cylindrical/conical face (on a part)" + "\n" +
                           "2) A linear edge or cylindrical/conical face (on another part)" + "\n\n" +

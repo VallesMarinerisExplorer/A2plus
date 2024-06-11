@@ -87,13 +87,13 @@ class A2plusWorkbench (Workbench):
         partCommands = [
             'a2p_ImportPart',
             'a2p_ImportShapeReferenceCommand',
-            'a2p_updateImportedParts',
+            # 'a2p_updateImportedParts',
             'a2p_movePart',
-            'a2p_MovePartUnderConstraints',
+            # 'a2p_MovePartUnderConstraints',
             'a2p_duplicatePart',
             'a2p_ConvertPart',
             'a2p_editImportedPart',
-            'a2p_SaveAndExit_Command',
+            # 'a2p_SaveAndExit_Command',
             ]
 
         if a2plib.getRecursiveUpdateEnabled():
@@ -109,30 +109,33 @@ class A2plusWorkbench (Workbench):
 
         if a2plib.SHOW_CONSTRAINTS_ON_TOOLBAR:
             constraintCommands1 = [
-                'a2p_PointIdentityConstraintCommand',
-                'a2p_PointOnLineConstraintCommand',
-                'a2p_PointOnPlaneConstraintCommand',
-                'a2p_SphericalSurfaceConstraintCommand',
-                'a2p_CircularEdgeConnection',
+                # 'a2p_PointIdentityConstraintCommand',
+                # 'a2p_PointOnLineConstraintCommand',
+                # 'a2p_PointOnPlaneConstraintCommand',
+                # 'a2p_SphericalSurfaceConstraintCommand',
+                # 'a2p_CircularEdgeConnection',
                 'a2p_AxialConstraintCommand',
-                'a2p_AxisParallelConstraintCommand',
-                'a2p_AxisPlaneParallelCommand',
-                'a2p_AxisPlaneNormalCommand',
-                'a2p_AxisPlaneAngleCommand',
-                'a2p_PlanesParallelConstraintCommand',
+                # 'a2p_AxisParallelConstraintCommand',
+                # 'a2p_AxisPlaneParallelCommand',
+                # 'a2p_AxisPlaneNormalCommand',
+                # 'a2p_AxisPlaneAngleCommand',
+                # 'a2p_PlanesParallelConstraintCommand',
+                'a2p_LinearConstraintCommand',
                 'a2p_PlaneCoincidentConstraintCommand',
-                'a2p_AngledPlanesConstraintCommand',
-                'a2p_CenterOfMassConstraintCommand',
+                # 'a2p_AngledPlanesConstraintCommand',
+                # 'a2p_CenterOfMassConstraintCommand',
                 ]
             constraintCommands.extend(constraintCommands1)
 
         # Create list of commands for toolbar A2p_Solver
         solverCommands = [
             'a2p_SolverCommand',
-            'a2p_ToggleAutoSolveCommand',
+            # 'a2p_ToggleAutoSolveCommand',
             'a2p_FlipConstraintDirectionCommand',
-            'a2p_Show_Hierarchy_Command',
-            'a2p_SearchConstraintConflictsCommand'
+            # 'a2p_Show_Hierarchy_Command',
+            'a2p_SearchConstraintConflictsCommand',
+            # 'a2p_ShowURDFCommand',
+            # 'a2p_ExportPybulletCommand'
             ]
 
         if a2plib.GRAPHICALDEBUG:
@@ -163,7 +166,7 @@ class A2plusWorkbench (Workbench):
             'rnp_Constraint_Viewer',
             'rnp_Update_A2pParts',
             'rnp_Constraint_Checker',
-            'rnp_OneButton',
+            # 'rnp_OneButton',
             ]
 
         menuEntries = [

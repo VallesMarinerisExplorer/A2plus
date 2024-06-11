@@ -51,6 +51,8 @@ def reAdjustConstraintDirections(doc):
                 a2p_constraints.PointOnPlaneConstraint.recalculateMatingDirection(c)
             elif c.Type == 'circularEdge':
                 a2p_constraints.CircularEdgeConstraint.recalculateMatingDirection(c)
+            elif c.Type == 'linear':
+                a2p_constraints.LinearConstraint.recalculateMatingDirection(c)
             elif c.Type == 'axial':
                 a2p_constraints.AxialConstraint.recalculateMatingDirection(c)
             elif c.Type == 'axisParallel':

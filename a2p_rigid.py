@@ -324,7 +324,7 @@ class Rigid():
             # print(dep.Type)
             link_info_dict = {}
 
-            if dep.Type == 'axial':
+            if dep.Type == 'axial' or dep.Type == 'linear':
                 refPoint, moveVector, destinationAxis, foreignAxis = dep.getMovement()
 
                 # Error is here v
@@ -349,7 +349,7 @@ class Rigid():
                     "childPlacement": childPlacement,
                     "parentPlacement": parentPlacement,
                     "destination_axis": destinationAxis,
-                    "foreign_axis": foreignAxis
+                    "foreign_axis": foreignAxis, "dependency_type": dep.Type
                 }
 
 

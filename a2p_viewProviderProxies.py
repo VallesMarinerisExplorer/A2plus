@@ -77,6 +77,7 @@ class ConstraintViewProviderProxy:
     def getIcon(self):
         ob = FreeCAD.ActiveDocument.getObject(self.constraintObj_name)
         if ob is not None:
+
             return a2plib.A2P_CONSTRAINTS_ICON_MAP[
                 ob.Type
                 ]
