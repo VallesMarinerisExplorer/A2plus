@@ -7,10 +7,7 @@
 2. Updating the movement and simulation of component positions in FreeCAD using PyBullet, allowing for more complicated and smoother moving assemblies for larger numbers of components.
 3. Adding additional assembly navigation and accesibility tools.
 
-### Here are some examples of assemblies created using this project
-
-
-### From this FreeCAD Assembly created using this repository
+### For example, from this FreeCAD Assembly created using this repository
 ![Image](Example_Assemblies/HelicopterAssembly2/SimpleHelicopter.png)
 
 ### we can simulate a (very) basic helicopter in PyBullet:
