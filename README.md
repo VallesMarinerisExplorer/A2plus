@@ -19,7 +19,7 @@
 
 
 ### Helicopter Example
-[![Watch the video](Example_Assemblies/HelicopterAssembly2/BladeAngles.mp4)
+[![Watch the video](Example_Assemblies/HelicopterAssembly2/BladeAngles.gif)
 
 
 ### Hierarchy Support
