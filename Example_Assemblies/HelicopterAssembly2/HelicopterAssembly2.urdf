@@ -1,0 +1,834 @@
+<?xml version="1.0" ?>
+<robot name="robot">
+    
+    
+    
+    
+    
+    
+    
+    
+    <link name="b_HelicopterBody_001_">
+        
+        
+        
+        
+        
+        
+        
+        
+        <visual>
+            
+            
+            
+            
+            
+            
+            
+            
+            <geometry>
+                
+                
+                
+                
+                
+                
+                
+                
+                <mesh filename="b_HelicopterBody_001_.obj"/>
+                
+                
+                
+                
+            
+            
+            
+            
+            </geometry>
+            
+            
+            
+            
+            
+            
+            
+            
+            <origin xyz="0 0 0" rpy="0 0 0"/>
+            
+            
+            
+            
+            
+            
+            
+            
+            <material name="visual_material">
+                
+                
+                
+                
+                
+                
+                
+                
+                <color rgba="1 0 0 1"/>
+                
+                
+                
+                
+            
+            
+            
+            
+            </material>
+            
+            
+            
+            
+        
+        
+        
+        
+        </visual>
+        
+        
+        
+        
+        
+        
+        
+        
+        <inertial>
+            
+            
+            
+            
+            
+            
+            
+            
+            <mass value="1"/>
+            
+            
+            
+            
+            
+            
+            
+            
+            <origin xyz="0 0 0" rpy="0 0 0"/>
+            
+            
+            
+            
+            
+            
+            
+            
+            <inertia ixx="1" ixy="0" ixz="0" iyy="1" iyz="0" izz="1"/>
+            
+            
+            
+            
+        
+        
+        
+        
+        </inertial>
+        
+        
+        
+        
+        
+        
+        
+        
+        <collision>
+            
+            
+            
+            
+            
+            
+            
+            
+            <geometry>
+                
+                
+                
+                
+                
+                
+                
+                
+                <mesh filename="b_HelicopterBody_001_.obj"/>
+                
+                
+                
+                
+            
+            
+            
+            
+            </geometry>
+            
+            
+            
+            
+            
+            
+            
+            
+            <origin xyz="0 0 0" rpy="0 0 0"/>
+            
+            
+            
+            
+        
+        
+        
+        
+        </collision>
+        
+        
+        
+        
+    
+    
+    
+    
+    </link>
+    
+    
+    
+    
+    
+    
+    
+    
+    <joint name="Revolute_continuous_001" type="continuous">
+        
+        
+        
+        
+        
+        
+        
+        
+        <parent link="b_HelicopterBody_001_"/>
+        
+        
+        
+        
+        
+        
+        
+        
+        <child link="b_RotorHub_001_"/>
+        
+        
+        
+        
+        
+        
+        
+        
+        <origin rpy="0 0 0" xyz="77.77526246370776 0.0 47.141589828062166"/>
+        
+        
+        
+        
+        
+        
+        
+        
+        <axis xyz="0.0 0.0 1.0"/>
+        
+        
+        
+        
+        
+        
+        
+        
+        <limit velocity="10000000"/>
+        
+        
+        
+        
+    
+    
+    
+    
+    </joint>
+    
+    
+    
+    
+    
+    
+    
+    
+    <link name="b_RotorHub_001_">
+        
+        
+        
+        
+        
+        
+        
+        
+        <visual>
+            
+            
+            
+            
+            
+            
+            
+            
+            <origin xyz="-77.77526246370776 -0.0 -47.141589828062166" rpy="0 0 0"/>
+            
+            
+            
+            
+            
+            
+            
+            
+            <geometry>
+                
+                
+                
+                
+                
+                
+                
+                
+                <mesh filename="b_RotorHub_001_.obj"/>
+                
+                
+                
+                
+            
+            
+            
+            
+            </geometry>
+            
+            
+            
+            
+        
+        
+        
+        
+        </visual>
+        
+        
+        
+        
+        
+        
+        
+        
+        <inertial>
+            
+            
+            
+            
+            
+            
+            
+            
+            <mass value="1"/>
+            
+            
+            
+            
+            
+            
+            
+            
+            <origin xyz="0 0 0"/>
+            
+            
+            
+            
+            
+            
+            
+            
+            <inertia ixx="15990400.580622" ixy="-0.000000" ixz="0.000000" iyy="15990400.580622" iyz="0.000000" izz="12786282.449050"/>
+            
+            
+            
+            
+        
+        
+        
+        
+        </inertial>
+        
+        
+        
+        
+        
+        
+        
+        
+        <collision>
+            
+            
+            
+            
+            
+            
+            
+            
+            <geometry>
+                
+                
+                
+                
+                
+                
+                
+                
+                <mesh filename="b_RotorHub_001_.obj"/>
+                
+                
+                
+                
+            
+            
+            
+            
+            </geometry>
+            
+            
+            
+            
+        
+        
+        
+        
+        </collision>
+        
+        
+        
+        
+    
+    
+    
+    
+    </link>
+    
+    
+    
+    
+
+    
+    
+    
+    <joint name="Revolute_continuous_002" type="continuous">
+        
+        
+        
+        
+        
+        
+        <parent link="b_RotorHub_001_"/>
+        
+        
+        
+        
+        
+        
+        <child link="b_RotorBlade_001_"/>
+        
+        
+        
+        
+        
+        
+        <origin rpy="0 0 0" xyz="1.3350139766998836e-06 -30.53221065278335 57.96732740826596"/>
+        
+        
+        
+        
+        
+        
+        <axis xyz="0.0 -1.0 0.0"/>
+        
+        
+        
+        
+        
+        
+        <limit velocity="10000000"/>
+        
+        
+        
+    
+    
+    
+    </joint>
+    
+    
+    
+    
+    
+    
+    <link name="b_RotorBlade_001_">
+        
+        
+        
+        
+        
+        
+        <visual>
+            
+            
+            
+            
+            
+            
+            <origin xyz="-77.77526379872174 30.53221065278335 -105.10891723632812" rpy="0 0 0"/>
+            
+            
+            
+            
+            
+            
+            <geometry>
+                
+                
+                
+                
+                
+                
+                <mesh filename="b_RotorBlade_001_.obj"/>
+                
+                
+                
+            
+            
+            
+            </geometry>
+            
+            
+            
+        
+        
+        
+        </visual>
+        
+        
+        
+        
+        
+        
+        <inertial>
+            
+            
+            
+            
+            
+            
+            <mass value="1"/>
+            
+            
+            
+            
+            
+            
+            <origin xyz="0 0 0"/>
+            
+            
+            
+            
+            
+            
+            <inertia ixx="3383481344.083817" ixy="3877503.399863" ixz="-0.000000" iyy="5819634.131645" iyz="-0.000000" izz="3389204315.315525"/>
+            
+            
+            
+        
+        
+        
+        </inertial>
+        
+        
+        
+        
+        
+        
+        <collision>
+            
+            
+            
+            
+            
+            
+            <geometry>
+                
+                
+                
+                
+                
+                
+                <mesh filename="b_RotorBlade_001_.obj"/>
+                
+                
+                
+            
+            
+            
+            </geometry>
+            
+            
+            
+        
+        
+        
+        </collision>
+        
+        
+        
+    
+    
+    
+    </link>
+    
+    
+    
+
+    
+    
+    <joint name="Revolute_continuous_003" type="continuous">
+        
+        
+        
+        
+        <parent link="b_RotorHub_001_"/>
+        
+        
+        
+        
+        <child link="b_RotorBlade_001_001"/>
+        
+        
+        
+        
+        <origin rpy="0 0 0" xyz="-30.53221095828082 1.0850530474115772e-08 57.96732740826596"/>
+        
+        
+        
+        
+        <axis xyz="-1.0 0.0 0.0"/>
+        
+        
+        
+        
+        <limit velocity="10000000"/>
+        
+        
+    
+    
+    </joint>
+    
+    
+    
+    
+    <link name="b_RotorBlade_001_001">
+        
+        
+        
+        
+        <visual>
+            
+            
+            
+            
+            <origin xyz="-47.24305150542694 -1.0850530474115772e-08 -105.10891723632812" rpy="0 0 0"/>
+            
+            
+            
+            
+            <geometry>
+                
+                
+                
+                
+                <mesh filename="b_RotorBlade_001_001.obj"/>
+                
+                
+            
+            
+            </geometry>
+            
+            
+        
+        
+        </visual>
+        
+        
+        
+        
+        <inertial>
+            
+            
+            
+            
+            <mass value="1"/>
+            
+            
+            
+            
+            <origin xyz="0 0 0"/>
+            
+            
+            
+            
+            <inertia ixx="5819634.131645" ixy="-3877503.399862" ixz="-0.000000" iyy="3383481344.083817" iyz="0.000000" izz="3389204315.315527"/>
+            
+            
+        
+        
+        </inertial>
+        
+        
+        
+        
+        <collision>
+            
+            
+            
+            
+            <geometry>
+                
+                
+                
+                
+                <mesh filename="b_RotorBlade_001_001.obj"/>
+                
+                
+            
+            
+            </geometry>
+            
+            
+        
+        
+        </collision>
+        
+        
+    
+    
+    </link>
+    
+    
+
+    
+    <joint name="Revolute_continuous_004" type="continuous">
+        
+        
+        <parent link="b_RotorHub_001_"/>
+        
+        
+        <child link="b_RotorBlade_001_002"/>
+        
+        
+        <origin rpy="0 0 0" xyz="1.0429801022837637e-08 30.532211002712636 57.96732740826596"/>
+        
+        
+        <axis xyz="0.0 1.0 0.0"/>
+        
+        
+        <limit velocity="10000000"/>
+        
+    
+    </joint>
+    
+    
+    <link name="b_RotorBlade_001_002">
+        
+        
+        <visual>
+            
+            
+            <origin xyz="-77.77526247413756 -30.532211002712636 -105.10891723632812" rpy="0 0 0"/>
+            
+            
+            <geometry>
+                
+                
+                <mesh filename="b_RotorBlade_001_002.obj"/>
+                
+            
+            </geometry>
+            
+        
+        </visual>
+        
+        
+        <inertial>
+            
+            
+            <mass value="1"/>
+            
+            
+            <origin xyz="0 0 0"/>
+            
+            
+            <inertia ixx="3383481344.083818" ixy="3877503.399862" ixz="0.000000" iyy="5819634.131645" iyz="0.000000" izz="3389204315.315527"/>
+            
+        
+        </inertial>
+        
+        
+        <collision>
+            
+            
+            <geometry>
+                
+                
+                <mesh filename="b_RotorBlade_001_002.obj"/>
+                
+            
+            </geometry>
+            
+        
+        </collision>
+        
+    
+    </link>
+    
+
+    <joint name="Revolute_continuous_005" type="continuous">
+        <parent link="b_RotorHub_001_"/>
+        <child link="b_RotorBlade_001_003"/>
+        <origin rpy="0 0 0" xyz="30.53221101042979 2.71262212692136e-09 57.96732740826596"/>
+        <axis xyz="1.0 0.0 0.0"/>
+        <limit velocity="10000000"/>
+    </joint>
+    <link name="b_RotorBlade_001_003">
+        <visual>
+            <origin xyz="-108.30747347413755 -2.71262212692136e-09 -105.10891723632812" rpy="0 0 0"/>
+            <geometry>
+                <mesh filename="b_RotorBlade_001_003.obj"/>
+            </geometry>
+        </visual>
+        <inertial>
+            <mass value="1"/>
+            <origin xyz="0 0 0"/>
+            <inertia ixx="5819634.131645" ixy="-3877503.399864" ixz="0.000000" iyy="3383481344.083822" iyz="0.000000" izz="3389204315.315531"/>
+        </inertial>
+        <collision>
+            <geometry>
+                <mesh filename="b_RotorBlade_001_003.obj"/>
+            </geometry>
+        </collision>
+    </link>
+</robot>
