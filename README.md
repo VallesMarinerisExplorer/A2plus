@@ -18,6 +18,10 @@
 ### Check  out [Arm Link Demo](https://github.com/VallesMarinerisExplorer/A2plus/tree/master/Example_Assemblies/ArmLinkDemo) to create URDFs with FreeCAD and [T Handle Demo](https://github.com/VallesMarinerisExplorer/A2plus/tree/master/FreeCAD_PyBullet_Integration_Demo) for a demo on simulating object dynamics in FreeCAD using PyBullet
 
 
+### Helicopter Example
+[![Watch the video](Example_Assemblies/HelicopterAssembly2/BladeAngles.mp4)
+
+
 ### Hierarchy Support
 This fork also supports the creation of assembly hierarchies in the tree structure for easier navigation. Child objects are automatically added beneath the parent object like this:
 
