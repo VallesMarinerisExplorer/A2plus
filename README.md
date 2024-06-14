@@ -20,7 +20,7 @@
 
 ### Helicopter Example
 [![Watch the video](Example_Assemblies/HelicopterAssembly2/BladeAngles.gif)
-
+[![Watch the video](Example_Assemblies/HelicopterAssembly2/BladeSpin.gif)
 
 ### Hierarchy Support
 This fork also supports the creation of assembly hierarchies in the tree structure for easier navigation. Child objects are automatically added beneath the parent object like this:
