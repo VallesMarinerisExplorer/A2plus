@@ -14,7 +14,8 @@
 [![Watch the video](Example_Assemblies/HelicopterAssembly2/BladeAngles.gif)
 [![Watch the video](Example_Assemblies/HelicopterAssembly2/BladeSpin.gif)
 
-
+### Simple Truck:
+![Image](Example_Assemblies/CraneAssembly/SimpleTruck.png)
 [![Watch the video](Example_Assemblies/CraneAssembly/TruckDemo3.gif)
 
 ### Here is a FreeCAD A2Plus Assembly:
