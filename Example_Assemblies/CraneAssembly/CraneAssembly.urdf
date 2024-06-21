@@ -1,0 +1,2011 @@
+<?xml version="1.0" ?>
+<robot name="robot">
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    <link name="b_CraneBody_001_">
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        <visual>
+            
+            
+            
+            
+            
+            
+            
+            
+            
+            
+            
+            
+            
+            
+            <geometry>
+                
+                
+                
+                
+                
+                
+                
+                
+                
+                
+                
+                
+                
+                
+                <mesh filename="b_CraneBody_001_.obj"/>
+                
+                
+                
+                
+                
+                
+                
+            
+            
+            
+            
+            
+            
+            
+            </geometry>
+            
+            
+            
+            
+            
+            
+            
+            
+            
+            
+            
+            
+            
+            
+            <origin xyz="0 0 0" rpy="0 0 0"/>
+            
+            
+            
+            
+            
+            
+            
+            
+            
+            
+            
+            
+            
+            
+            <material name="visual_material">
+                
+                
+                
+                
+                
+                
+                
+                
+                
+                
+                
+                
+                
+                
+                <color rgba="1 0 0 1"/>
+                
+                
+                
+                
+                
+                
+                
+            
+            
+            
+            
+            
+            
+            
+            </material>
+            
+            
+            
+            
+            
+            
+            
+        
+        
+        
+        
+        
+        
+        
+        </visual>
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        <inertial>
+            
+            
+            
+            
+            
+            
+            
+            
+            
+            
+            
+            
+            
+            
+            <mass value="1"/>
+            
+            
+            
+            
+            
+            
+            
+            
+            
+            
+            
+            
+            
+            
+            <origin xyz="0 0 0" rpy="0 0 0"/>
+            
+            
+            
+            
+            
+            
+            
+            
+            
+            
+            
+            
+            
+            
+            <inertia ixx="1" ixy="0" ixz="0" iyy="1" iyz="0" izz="1"/>
+            
+            
+            
+            
+            
+            
+            
+        
+        
+        
+        
+        
+        
+        
+        </inertial>
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        <collision>
+            
+            
+            
+            
+            
+            
+            
+            
+            
+            
+            
+            
+            
+            
+            <geometry>
+                
+                
+                
+                
+                
+                
+                
+                
+                
+                
+                
+                
+                
+                
+                <mesh filename="b_CraneBody_001_.obj"/>
+                
+                
+                
+                
+                
+                
+                
+            
+            
+            
+            
+            
+            
+            
+            </geometry>
+            
+            
+            
+            
+            
+            
+            
+            
+            
+            
+            
+            
+            
+            
+            <origin xyz="0 0 0" rpy="0 0 0"/>
+            
+            
+            
+            
+            
+            
+            
+        
+        
+        
+        
+        
+        
+        
+        </collision>
+        
+        
+        
+        
+        
+        
+        
+    
+    
+    
+    
+    
+    
+    
+    </link>
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    <joint name="Revolute_continuous_001" type="continuous">
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        <parent link="b_CraneBody_001_"/>
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        <child link="b_WheelTurner_001_"/>
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        <origin rpy="0 0 0" xyz="17.254223000000007 -10.000000000000002 8.006339732172137"/>
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        <axis xyz="0.0 0.0 1.0"/>
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        <limit velocity="10000000"/>
+        
+        
+        
+        
+        
+        
+        
+    
+    
+    
+    
+    
+    
+    
+    </joint>
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    <link name="b_WheelTurner_001_">
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        <visual>
+            
+            
+            
+            
+            
+            
+            
+            
+            
+            
+            
+            
+            
+            
+            <origin xyz="-17.254223000000007 10.000000000000002 -8.006339732172137" rpy="0 0 0"/>
+            
+            
+            
+            
+            
+            
+            
+            
+            
+            
+            
+            
+            
+            
+            <geometry>
+                
+                
+                
+                
+                
+                
+                
+                
+                
+                
+                
+                
+                
+                
+                <mesh filename="b_WheelTurner_001_.obj"/>
+                
+                
+                
+                
+                
+                
+                
+            
+            
+            
+            
+            
+            
+            
+            </geometry>
+            
+            
+            
+            
+            
+            
+            
+        
+        
+        
+        
+        
+        
+        
+        </visual>
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        <inertial>
+            
+            
+            
+            
+            
+            
+            
+            
+            
+            
+            
+            
+            
+            
+            <mass value="1"/>
+            
+            
+            
+            
+            
+            
+            
+            
+            
+            
+            
+            
+            
+            
+            <origin xyz="0 0 0"/>
+            
+            
+            
+            
+            
+            
+            
+            
+            
+            
+            
+            
+            
+            
+            <inertia ixx="1065.454346" ixy="-0.000000" ixz="-0.000000" iyy="977.780767" iyz="94.756588" izz="430.317097"/>
+            
+            
+            
+            
+            
+            
+            
+        
+        
+        
+        
+        
+        
+        
+        </inertial>
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        <collision>
+            
+            
+            
+            
+            
+            
+            
+            
+            
+            
+            
+            
+            
+            
+            <geometry>
+                
+                
+                
+                
+                
+                
+                
+                
+                
+                
+                
+                
+                
+                
+                <mesh filename="b_WheelTurner_001_.obj"/>
+                
+                
+                
+                
+                
+                
+                
+            
+            
+            
+            
+            
+            
+            
+            </geometry>
+            
+            
+            
+            
+            
+            
+            
+            
+            
+            
+            
+            
+            
+            
+            <origin xyz="-17.254223000000007 10.000000000000002 -8.006339732172137" rpy="0 0 0"/>
+            
+            
+            
+            
+            
+            
+            
+        
+        
+        
+        
+        
+        
+        
+        </collision>
+        
+        
+        
+        
+        
+        
+        
+    
+    
+    
+    
+    
+    
+    
+    </link>
+    
+    
+    
+    
+    
+    
+    
+
+    
+    
+    
+    
+    
+    
+    <joint name="Revolute_continuous_002" type="continuous">
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        <parent link="b_CraneBody_001_"/>
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        <child link="b_WheelTurner_001_001"/>
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        <origin rpy="0 0 0" xyz="-47.15060000000001 -10.000000000000002 8.006339732172137"/>
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        <axis xyz="0.0 0.0 1.0"/>
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        <limit velocity="10000000"/>
+        
+        
+        
+        
+        
+        
+    
+    
+    
+    
+    
+    
+    </joint>
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    <link name="b_WheelTurner_001_001">
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        <visual>
+            
+            
+            
+            
+            
+            
+            
+            
+            
+            
+            
+            
+            <origin xyz="47.15060000000001 10.000000000000002 -8.006339732172137" rpy="0 0 0"/>
+            
+            
+            
+            
+            
+            
+            
+            
+            
+            
+            
+            
+            <geometry>
+                
+                
+                
+                
+                
+                
+                
+                
+                
+                
+                
+                
+                <mesh filename="b_WheelTurner_001_001.obj"/>
+                
+                
+                
+                
+                
+                
+            
+            
+            
+            
+            
+            
+            </geometry>
+            
+            
+            
+            
+            
+            
+        
+        
+        
+        
+        
+        
+        </visual>
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        <inertial>
+            
+            
+            
+            
+            
+            
+            
+            
+            
+            
+            
+            
+            <mass value="1"/>
+            
+            
+            
+            
+            
+            
+            
+            
+            
+            
+            
+            
+            <origin xyz="0 0 0"/>
+            
+            
+            
+            
+            
+            
+            
+            
+            
+            
+            
+            
+            <inertia ixx="1065.454346" ixy="-0.000000" ixz="-0.000000" iyy="977.780767" iyz="94.756588" izz="430.317097"/>
+            
+            
+            
+            
+            
+            
+        
+        
+        
+        
+        
+        
+        </inertial>
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        <collision>
+            
+            
+            
+            
+            
+            
+            
+            
+            
+            
+            
+            
+            <geometry>
+                
+                
+                
+                
+                
+                
+                
+                
+                
+                
+                
+                
+                <mesh filename="b_WheelTurner_001_001.obj"/>
+                
+                
+                
+                
+                
+                
+            
+            
+            
+            
+            
+            
+            </geometry>
+            
+            
+            
+            
+            
+            
+            
+            
+            
+            
+            
+            
+            <origin xyz="47.15060000000001 10.000000000000002 -8.006339732172137" rpy="0 0 0"/>
+            
+            
+            
+            
+            
+            
+        
+        
+        
+        
+        
+        
+        </collision>
+        
+        
+        
+        
+        
+        
+    
+    
+    
+    
+    
+    
+    </link>
+    
+    
+    
+    
+    
+    
+
+    
+    
+    
+    
+    
+    <joint name="Revolute_continuous_003" type="continuous">
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        <parent link="b_CraneBody_001_"/>
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        <child link="b_WheelTurner_001_002"/>
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        <origin rpy="0 0 0" xyz="-47.15060000000001 -30.000000000000004 8.006339732172131"/>
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        <axis xyz="0.0 0.0 1.0"/>
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        <limit velocity="10000000"/>
+        
+        
+        
+        
+        
+    
+    
+    
+    
+    
+    </joint>
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    <link name="b_WheelTurner_001_002">
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        <visual>
+            
+            
+            
+            
+            
+            
+            
+            
+            
+            
+            <origin xyz="47.15060000000001 30.000000000000004 -8.006339732172131" rpy="0 0 0"/>
+            
+            
+            
+            
+            
+            
+            
+            
+            
+            
+            <geometry>
+                
+                
+                
+                
+                
+                
+                
+                
+                
+                
+                <mesh filename="b_WheelTurner_001_002.obj"/>
+                
+                
+                
+                
+                
+            
+            
+            
+            
+            
+            </geometry>
+            
+            
+            
+            
+            
+        
+        
+        
+        
+        
+        </visual>
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        <inertial>
+            
+            
+            
+            
+            
+            
+            
+            
+            
+            
+            <mass value="1"/>
+            
+            
+            
+            
+            
+            
+            
+            
+            
+            
+            <origin xyz="0 0 0"/>
+            
+            
+            
+            
+            
+            
+            
+            
+            
+            
+            <inertia ixx="1065.454346" ixy="-0.000000" ixz="0.000000" iyy="977.780767" iyz="-94.756588" izz="430.317097"/>
+            
+            
+            
+            
+            
+        
+        
+        
+        
+        
+        </inertial>
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        <collision>
+            
+            
+            
+            
+            
+            
+            
+            
+            
+            
+            <geometry>
+                
+                
+                
+                
+                
+                
+                
+                
+                
+                
+                <mesh filename="b_WheelTurner_001_002.obj"/>
+                
+                
+                
+                
+                
+            
+            
+            
+            
+            
+            </geometry>
+            
+            
+            
+            
+            
+            
+            
+            
+            
+            
+            <origin xyz="47.15060000000001 30.000000000000004 -8.006339732172131" rpy="0 0 0"/>
+            
+            
+            
+            
+            
+        
+        
+        
+        
+        
+        </collision>
+        
+        
+        
+        
+        
+    
+    
+    
+    
+    
+    </link>
+    
+    
+    
+    
+    
+
+    
+    
+    
+    
+    <joint name="Revolute_continuous_004" type="continuous">
+        
+        
+        
+        
+        
+        
+        
+        
+        <parent link="b_CraneBody_001_"/>
+        
+        
+        
+        
+        
+        
+        
+        
+        <child link="b_WheelTurner_001_003"/>
+        
+        
+        
+        
+        
+        
+        
+        
+        <origin rpy="0 0 0" xyz="17.254223000000007 -30.000000000000004 8.006339732172131"/>
+        
+        
+        
+        
+        
+        
+        
+        
+        <axis xyz="0.0 0.0 1.0"/>
+        
+        
+        
+        
+        
+        
+        
+        
+        <limit velocity="10000000"/>
+        
+        
+        
+        
+    
+    
+    
+    
+    </joint>
+    
+    
+    
+    
+    
+    
+    
+    
+    <link name="b_WheelTurner_001_003">
+        
+        
+        
+        
+        
+        
+        
+        
+        <visual>
+            
+            
+            
+            
+            
+            
+            
+            
+            <origin xyz="-17.254223000000007 30.000000000000004 -8.006339732172131" rpy="0 0 0"/>
+            
+            
+            
+            
+            
+            
+            
+            
+            <geometry>
+                
+                
+                
+                
+                
+                
+                
+                
+                <mesh filename="b_WheelTurner_001_003.obj"/>
+                
+                
+                
+                
+            
+            
+            
+            
+            </geometry>
+            
+            
+            
+            
+        
+        
+        
+        
+        </visual>
+        
+        
+        
+        
+        
+        
+        
+        
+        <inertial>
+            
+            
+            
+            
+            
+            
+            
+            
+            <mass value="1"/>
+            
+            
+            
+            
+            
+            
+            
+            
+            <origin xyz="0 0 0"/>
+            
+            
+            
+            
+            
+            
+            
+            
+            <inertia ixx="1065.454346" ixy="-0.000000" ixz="-0.000000" iyy="977.780767" iyz="-94.756588" izz="430.317097"/>
+            
+            
+            
+            
+        
+        
+        
+        
+        </inertial>
+        
+        
+        
+        
+        
+        
+        
+        
+        <collision>
+            
+            
+            
+            
+            
+            
+            
+            
+            <geometry>
+                
+                
+                
+                
+                
+                
+                
+                
+                <mesh filename="b_WheelTurner_001_003.obj"/>
+                
+                
+                
+                
+            
+            
+            
+            
+            </geometry>
+            
+            
+            
+            
+            
+            
+            
+            
+            <origin xyz="-17.254223000000007 30.000000000000004 -8.006339732172131" rpy="0 0 0"/>
+            
+            
+            
+            
+        
+        
+        
+        
+        </collision>
+        
+        
+        
+        
+    
+    
+    
+    
+    </link>
+    
+    
+    
+    
+
+    
+    
+    
+    <joint name="Revolute_continuous_005" type="continuous">
+        
+        
+        
+        
+        
+        
+        <parent link="b_WheelTurner_001_002"/>
+        
+        
+        
+        
+        
+        
+        <child link="b_Wheel_001_"/>
+        
+        
+        
+        
+        
+        
+        <origin rpy="0 0 0" xyz="3.7030432054052653e-09 -3.9615950869385976 -6.565306782709249"/>
+        
+        
+        
+        
+        
+        
+        <axis xyz="0.0 -1.0 -4.440892098500626e-16"/>
+        
+        
+        
+        
+        
+        
+        <limit velocity="10000000"/>
+        
+        
+        
+    
+    
+    
+    </joint>
+    
+    
+    
+    
+    
+    
+    <link name="b_Wheel_001_">
+        
+        
+        
+        
+        
+        
+        <visual>
+            
+            
+            
+            
+            
+            
+            <origin xyz="47.15059999629697 33.9615950869386 -1.4410329494628824" rpy="0 0 0"/>
+            
+            
+            
+            
+            
+            
+            <geometry>
+                
+                
+                
+                
+                
+                
+                <mesh filename="b_Wheel_001_.obj"/>
+                
+                
+                
+            
+            
+            
+            </geometry>
+            
+            
+            
+        
+        
+        
+        </visual>
+        
+        
+        
+        
+        
+        
+        <inertial>
+            
+            
+            
+            
+            
+            
+            <mass value="1"/>
+            
+            
+            
+            
+            
+            
+            <origin xyz="0 0 0"/>
+            
+            
+            
+            
+            
+            
+            <inertia ixx="18671.295034" ixy="-0.000000" ixz="0.000000" iyy="32809.570888" iyz="-0.000000" izz="18671.295034"/>
+            
+            
+            
+        
+        
+        
+        </inertial>
+        
+        
+        
+        
+        
+        
+        <collision>
+            
+            
+            
+            
+            
+            
+            <geometry>
+                
+                
+                
+                
+                
+                
+                <mesh filename="b_Wheel_001_.obj"/>
+                
+                
+                
+            
+            
+            
+            </geometry>
+            
+            
+            
+            
+            
+            
+            <origin xyz="47.15059999629697 33.9615950869386 -1.4410329494628824" rpy="0 0 0"/>
+            
+            
+            
+        
+        
+        
+        </collision>
+        
+        
+        
+    
+    
+    
+    </link>
+    
+    
+    
+
+    
+    
+    <joint name="Revolute_continuous_006" type="continuous">
+        
+        
+        
+        
+        <parent link="b_WheelTurner_001_003"/>
+        
+        
+        
+        
+        <child link="b_Wheel_001_001"/>
+        
+        
+        
+        
+        <origin rpy="0 0 0" xyz="-3.786571056707544e-09 -3.9615950957888977 -5.893492817865499"/>
+        
+        
+        
+        
+        <axis xyz="0.0 -1.0 -4.440892098500626e-16"/>
+        
+        
+        
+        
+        <limit velocity="10000000"/>
+        
+        
+    
+    
+    </joint>
+    
+    
+    
+    
+    <link name="b_Wheel_001_001">
+        
+        
+        
+        
+        <visual>
+            
+            
+            
+            
+            <origin xyz="-17.254222996213436 33.9615950957889 -2.1128469143066324" rpy="0 0 0"/>
+            
+            
+            
+            
+            <geometry>
+                
+                
+                
+                
+                <mesh filename="b_Wheel_001_001.obj"/>
+                
+                
+            
+            
+            </geometry>
+            
+            
+        
+        
+        </visual>
+        
+        
+        
+        
+        <inertial>
+            
+            
+            
+            
+            <mass value="1"/>
+            
+            
+            
+            
+            <origin xyz="0 0 0"/>
+            
+            
+            
+            
+            <inertia ixx="18671.295034" ixy="-0.000000" ixz="0.000000" iyy="32809.570888" iyz="-0.000000" izz="18671.295034"/>
+            
+            
+        
+        
+        </inertial>
+        
+        
+        
+        
+        <collision>
+            
+            
+            
+            
+            <geometry>
+                
+                
+                
+                
+                <mesh filename="b_Wheel_001_001.obj"/>
+                
+                
+            
+            
+            </geometry>
+            
+            
+            
+            
+            <origin xyz="-17.254222996213436 33.9615950957889 -2.1128469143066324" rpy="0 0 0"/>
+            
+            
+        
+        
+        </collision>
+        
+        
+    
+    
+    </link>
+    
+    
+
+    
+    <joint name="Revolute_continuous_007" type="continuous">
+        
+        
+        <parent link="b_WheelTurner_001_"/>
+        
+        
+        <child link="b_Wheel_001_002"/>
+        
+        
+        <origin rpy="0 0 0" xyz="1.0188220045392882e-08 3.961595087241097 -5.937953114496357"/>
+        
+        
+        <axis xyz="0.0 -1.0 0.0"/>
+        
+        
+        <limit velocity="10000000"/>
+        
+    
+    </joint>
+    
+    
+    <link name="b_Wheel_001_002">
+        
+        
+        <visual>
+            
+            
+            <origin xyz="-17.254223010188227 6.038404912758905 -2.06838661767578" rpy="0 0 0"/>
+            
+            
+            <geometry>
+                
+                
+                <mesh filename="b_Wheel_001_002.obj"/>
+                
+            
+            </geometry>
+            
+        
+        </visual>
+        
+        
+        <inertial>
+            
+            
+            <mass value="1"/>
+            
+            
+            <origin xyz="0 0 0"/>
+            
+            
+            <inertia ixx="18671.295034" ixy="-0.000000" ixz="0.000000" iyy="32809.570888" iyz="-0.000000" izz="18671.295034"/>
+            
+        
+        </inertial>
+        
+        
+        <collision>
+            
+            
+            <geometry>
+                
+                
+                <mesh filename="b_Wheel_001_002.obj"/>
+                
+            
+            </geometry>
+            
+            
+            <origin xyz="-17.254223010188227 6.038404912758905 -2.06838661767578" rpy="0 0 0"/>
+            
+        
+        </collision>
+        
+    
+    </link>
+    
+
+    <joint name="Revolute_continuous_008" type="continuous">
+        <parent link="b_WheelTurner_001_001"/>
+        <child link="b_Wheel_001_003"/>
+        <origin rpy="0 0 0" xyz="1.0091838476000703e-09 3.9615950579025103 -6.542214512811786"/>
+        <axis xyz="0.0 -1.0 -2.220446049250313e-16"/>
+        <limit velocity="10000000"/>
+    </joint>
+    <link name="b_Wheel_001_003">
+        <visual>
+            <origin xyz="47.15059999899083 6.0384049420974915 -1.4641252193603504" rpy="0 0 0"/>
+            <geometry>
+                <mesh filename="b_Wheel_001_003.obj"/>
+            </geometry>
+        </visual>
+        <inertial>
+            <mass value="1"/>
+            <origin xyz="0 0 0"/>
+            <inertia ixx="18671.295034" ixy="-0.000000" ixz="0.000000" iyy="32809.570888" iyz="-0.000000" izz="18671.295034"/>
+        </inertial>
+        <collision>
+            <geometry>
+                <mesh filename="b_Wheel_001_003.obj"/>
+            </geometry>
+            <origin xyz="47.15059999899083 6.0384049420974915 -1.4641252193603504" rpy="0 0 0"/>
+        </collision>
+    </link>
+</robot>
