@@ -349,7 +349,9 @@ class Rigid():
                     "childPlacement": childPlacement,
                     "parentPlacement": parentPlacement,
                     "destination_axis": destinationAxis,
-                    "foreign_axis": foreignAxis, "dependency_type": dep.Type
+                    "foreign_axis": foreignAxis,
+                    "dependency_type": dep.Type,
+                    "joint_name": dep.constraint.Label
                 }
 
 

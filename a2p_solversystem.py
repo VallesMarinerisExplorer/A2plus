@@ -315,25 +315,205 @@ class SolverSystem():
         for link in root.findall('link'):
             links.append(link.get('name'))
         self.links = links
+
+        # def GetLinks():
+        #     import xml.etree.ElementTree as ET
+        #     from math import radians
+        #
+        #     totalpath = "C:\\Users\\" + str(os.getlogin()) + "\\" + str(FreeCAD.ActiveDocument.Label) + "\\" + urdf_file
+        #
+        #     tree = ET.parse(totalpath)
+        #     root = tree.getroot()
+        #     links = []
+        #     for link in root.findall('link'):
+        #         links.append(link.get('name'))
+        #     joints = []
+        #     for joint in root.findall('joint'):
+        #         joints.append(joint.get('name'))
+        #     self.links = links
+        #     return links, joints
+
+        # # Helper function to remove joint and corresponding link and save the URDF
+        # def remove_joint_and_link(root, joint_name):
+        #     joint_found = False
+        #     link_found = False
+        #
+        #
+        #     # NEED TO REDO THIS LOGIC AND FIND A FOR SURE WAY TO KNOW  WHAT CHILD OBJECT IS
+        #     # BECAUSE if joint.get('name') == joint_name:   ONLY WORKS IF YOU ARE ADDING THE EXACT SAME KIND OF JOINT BACK
+        #     # WHAT IF I WANT TO DELETE AND RE-ADD A LINEAR JOINT? DOESN'T CATCH NOW I HAVE BOTH ROTARY AND LINEAR JOINTS IN THE
+        #     # URDF FOR SAME PARENT CHILD VERY BAD
+        #     # Remove joint
+        #
+        #
+        #     # 1 Is there a joint that has the same parent and child as current joint to be added?
+        #     # 2 If yes, delete this joint
+        #     # 3 Delete the child
+        #     # 4 Re-add new joint and new child
+        #
+        #     for joint in root.findall('joint'):
+        #
+        #         if joint.get('name') == joint_name:
+        #             child = joint.find('child')
+        #             if child is not None:
+        #                 childtodelete = child.get('link')
+        #             print(childtodelete)
+        #             print("FOUND!")
+        #             root.remove(joint)
+        #             joint_found = True
+        #             break
+        #
+        #     # # Remove link
+        #     for link in root.findall('link'):
+        #         if link.get('name') == childtodelete:
+        #             root.remove(link)
+        #             link_found = True
+        #             break
+        #
+        #     # If either joint or link was found and removed, save the modified URDF
+        #     if joint_found or link_found:
+        #         tree.write(totalpath)
+        #         print(f"Joint '{joint_name}' and/or link '{link.get('name')}' removed and URDF saved.")
+        #     else:
+        #         print(f"Joint '{joint_name}' or link '{link.get('name')}' not found in URDF.")
+
+        # Function to remove redundant constraints
+        from typing import List, Dict, Tuple
+
+        # def remove_redundant_constraints(constraints: List[Dict[str, Dict]]) -> List[Dict[str, Dict]]:
+        #     unique_constraints = []
+        #     seen = set()
+        #
+        #     for constraint in constraints:
+        #         key = list(constraint.keys())[0]
+        #         value = constraint[key]
+        #
+        #         # Convert vector attributes to tuples if they are not already tuples
+        #         def vector_to_tuple(v):
+        #             return tuple(v) if isinstance(v, (tuple, list)) else (v.x, v.y, v.z)
+        #
+        #         unique_tuple = (
+        #             value['parent_object'],
+        #             vector_to_tuple(value['childPlacement']),
+        #             vector_to_tuple(value['parentPlacement']),
+        #             vector_to_tuple(value['destination_axis']),
+        #             vector_to_tuple(value['foreign_axis']),
+        #             value['dependency_type'],
+        #             value['joint_name']
+        #         )
+        #
+        #         # If this unique combination has not been seen before, add it to the result
+        #         if unique_tuple not in seen:
+        #             seen.add(unique_tuple)
+        #             unique_constraints.append(constraint)
+        #
+        #     return unique_constraints
+
+        # LAST GEOMETRY UPDATE ON THE RECENTLY UPDATED LINK
+        with open("C:\\Users\\" + str(os.getlogin()) + "\\" + str(FreeCAD.ActiveDocument.Label) + "\\temp.txt", "r") as f:
+            lines = f.readlines()
+        lines[0] = lines[0].replace("\n","")
         for specificlinkinfo in linkinfo:
-            link1, _ = list(specificlinkinfo.items())[-1]
-            link2 = specificlinkinfo[next(iter(specificlinkinfo))]['parent_object']
-
-            jointtype = specificlinkinfo[next(iter(specificlinkinfo))]['dependency_type']
-            print(jointtype)
-            print(jointtype)
-            print(jointtype)
-
-            if link2 not in links:
-                self.parent_link_name = link1
-                self.child_link_name = link2
-                newlinkinfo = specificlinkinfo
+            if list(specificlinkinfo.items())[-1][0] == lines[0] and specificlinkinfo[next(iter(specificlinkinfo))]['parent_object'] == lines[1] or \
+                list(specificlinkinfo.items())[-1][0] == lines[1] and specificlinkinfo[next(iter(specificlinkinfo))]['parent_object'] == lines[0]:
+                # print(specificlinkinfo)
+                print("FOUND SPECIFIC LINK")
+                print(list(specificlinkinfo.items())[-1][0])
+                print(lines[0])
+                print(specificlinkinfo[next(iter(specificlinkinfo))]['parent_object'])
+                print(lines[1])
+                print("DONE")
+                print(list(specificlinkinfo.items())[-1])
                 break
-            elif link1 not in links:
-                self.parent_link_name = link2
-                self.child_link_name = link1
-                newlinkinfo = specificlinkinfo
-                break
+
+        link1, _ = list(specificlinkinfo.items())[-1]
+        link2 = specificlinkinfo[next(iter(specificlinkinfo))]['parent_object']
+        jointtype = specificlinkinfo[next(iter(specificlinkinfo))]['dependency_type']
+        joint_name = specificlinkinfo[next(iter(specificlinkinfo))].get('joint_name', None)  # Assuming joint_name is part of the info
+
+        print(link1)
+        # print(link2)
+        # print(links)
+        if link2 not in links:
+            self.parent_link_name = link1
+            self.child_link_name = link2
+            newlinkinfo = specificlinkinfo
+        elif link1 not in links:
+            self.parent_link_name = link2
+            self.child_link_name = link1
+            newlinkinfo = specificlinkinfo
+        else:
+            # NEED TO REDO THIS LOGIC AND FIND A FOR SURE WAY TO KNOW  WHAT CHILD OBJECT IS
+            # BECAUSE if joint.get('name') == joint_name:   ONLY WORKS IF YOU ARE ADDING THE EXACT SAME KIND OF JOINT BACK
+            # WHAT IF I WANT TO DELETE AND RE-ADD A LINEAR JOINT? DOESN'T CATCH NOW I HAVE BOTH ROTARY AND LINEAR JOINTS IN THE
+            # URDF FOR SAME PARENT CHILD VERY BAD
+            # Remove joint
+
+            # 1 Is there a joint that has the same parent and child as current joint to be added?
+            # 2 If yes, delete this joint
+            # 3 Delete the child
+            # 4 Re-add new joint and new child
+
+            for joint in root.findall('joint'):
+                child = joint.find('child')
+                parent = joint.find('parent')
+
+                # getting deleted after 2 children to og parent only!!!!!!!
+
+
+                if (child.get('link') == link1 and parent.get('link') == link2) or (child.get('link') == link2 and parent.get('link') == link1):
+                    print("Let's delete this joint")
+                    print(joint.get('name'))
+                    print(child.get('link'))
+                    print(link1)
+                    print(parent.get('link'))
+                    print(link2)
+                    root.remove(joint)
+                    childtodelete = child.get('link')
+                    self.parent_link_name = parent.get('link')
+                    self.child_link_name = childtodelete
+                    break
+
+            for link in root.findall('link'):
+                if link.get('name') == childtodelete:
+                    print("Deleting")
+                    print(childtodelete)
+                    root.remove(link)
+                    break
+                childtodelete = ""
+            tree.write(totalpath)
+            newlinkinfo = specificlinkinfo
+
+            # print("JOINT NAME IN JOINTS")
+            # print("YOU NEED TO IMPLEMENT JOINT/LINK REMOVAL CODE HERE v")
+            # print("Removing " + joint_name)
+            # remove_joint_and_link(root,joint_name)
+        # else: # Elif link1 and link2 in links AND
+        #     # print(specificlinkinfo)
+        #     # print(link1)
+        #     # print(link2)
+        #     # print(links)
+        #     # Overwrite or delete existing joint and link
+        #     print("Overwriting or deleting existing joint and link...")
+        #     # print(joint_name)
+        #     if joint_name:
+        #         remove_joint_and_link(root, joint_name, link1)
+        #     else:
+        #         remove_joint_and_link(root, link1 + '_joint', link1)  # Assuming joint naming convention
+        #     links = GetLinks()
+        #     # print(links)
+        #     if link2 not in links:
+        #         self.parent_link_name = link1
+        #         self.child_link_name = link2
+        #         newlinkinfo = specificlinkinfo
+        #         break
+        #     elif link1 not in links:
+        #         self.parent_link_name = link2
+        #         self.child_link_name = link1
+        #         newlinkinfo = specificlinkinfo
+        #         break
+        #     else:
+        #         print("I'm tired of this grandpa")
 
         # Foreign Axis has some errors sometimes
         foreign_axis = newlinkinfo[next(iter(newlinkinfo))]['foreign_axis']
@@ -342,9 +522,10 @@ class SolverSystem():
 
         ParentObjPlacement = FreeCAD.ActiveDocument.getObject(self.parent_link_name).Placement.Base
 
-        joint_name = f"{self.parent_link_name}_to_{self.child_link_name}"
+        # joint_name = f"{self.parent_link_name}_to_{self.child_link_name}"
+
         if jointtype == 'axial':
-            joint = ET.Element("joint", name=joint_name, type="revolute")
+            joint = ET.Element("joint", name=joint_name, type="continuous")
         elif jointtype == 'linear':
             joint = ET.Element("joint", name=joint_name, type="prismatic")
 
@@ -360,6 +541,10 @@ class SolverSystem():
                                        foreign_axis[2]))
 
         else:
+            print(type(LastLinkXYZ))
+            print(type(LastLinkXYZ))
+            print(type(LastLinkXYZ))
+            print(type(LastLinkXYZ))
             xyzlast = LastLinkXYZ(root,self.parent_link_name)
             origin = ET.SubElement(joint, "origin", rpy="0 0 0",
                                    xyz=str(xyzlast[0]+foreign_axis[0]) + " " + str(xyzlast[1]+foreign_axis[1]) + " " + str(xyzlast[2]+
@@ -406,7 +591,7 @@ class SolverSystem():
         geometry2 = ET.SubElement(collision, "geometry")
         collision_mesh = ET.SubElement(geometry2, "mesh")
         collision_mesh.attrib["filename"] = self.child_link_name + ".obj"
-
+        ET.SubElement(collision, "origin", xyz=str(-foreign_axis[0]) + " " + str(-foreign_axis[1]) + " " + str(-foreign_axis[2]), rpy="0 0 0")
         root.append(child_link)
         tree.write(totalpath)
         print("URDF Saved to: " + totalpath)

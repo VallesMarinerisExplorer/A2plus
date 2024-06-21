@@ -75,7 +75,7 @@ class BasicConstraint():
         cName = a2plib.findUnusedObjectName(self.constraintBaseName)
         print("HERE IS WHERE IT IS ADDED")
         ob = FreeCAD.activeDocument().addObject("App::FeaturePython", cName)
-        print("YOOOOOOOOOOOO")
+
         s1, s2 = selection
 
         self.ob1Name = s1.ObjectName
@@ -106,7 +106,7 @@ class BasicConstraint():
         self.calcInitialValues()  # override in subclass !
         self.setInitialValues()
         self.groupUnderParentTreeObject()
-        print("WHAT!")
+
         self.setupProxies()
 
 
@@ -137,6 +137,7 @@ class BasicConstraint():
             links = []
             for link in root.findall('link'):
                 links.append(link.get('name'))
+
             if c.Object1 not in links:
                 parent = FreeCAD.ActiveDocument.getObject(c.Object2)
                 child = FreeCAD.ActiveDocument.getObject(c.Object1)
@@ -149,7 +150,14 @@ class BasicConstraint():
             child = FreeCAD.ActiveDocument.Objects[1]
 
         # Add the physical child object (not constraint) as subobject of parent
-        FreeCAD.ActiveDocument.getObject(child.Name).addProperty("App::PropertyLink", "Parent",
+        try:
+            FreeCAD.ActiveDocument.getObject(child.Name).addProperty("App::PropertyLink", "Parent",
+                                                                 "LinkInfo").Parent = FreeCAD.ActiveDocument.getObject(parent.Name)
+        except:
+            # There is existing parent property even though constraint was deleted (how you get an exception) so
+            # basically delete and re-add the constraint
+            FreeCAD.ActiveDocument.getObject(child.Name).removeProperty("Parent")
+            FreeCAD.ActiveDocument.getObject(child.Name).addProperty("App::PropertyLink", "Parent",
                                                                  "LinkInfo").Parent = FreeCAD.ActiveDocument.getObject(parent.Name)
 
         # Add constraint as subobject of child. This is the one I want to keep
@@ -555,6 +563,22 @@ class AxialConstraint(BasicConstraint):
         else:
             self.direction = "opposed"
         self.lockRotation = False
+        import os
+        # with open("C:\\Users\\" + str(os.getlogin()) + "\\" + str(FreeCAD.ActiveDocument.Label) + "\\temp.txt", "w+") as f:
+        #     f.write(str(self.ob1.Name) + '\n')
+        #     f.write(str(self.ob2.Name) + '\n')
+        # f.close()
+        with open("C:\\Users\\" + str(os.getlogin()) + "\\" + str(FreeCAD.ActiveDocument.Label) + "\\temp.txt", "w+") as f:
+            f.write(str(self.ob1.Name))
+            f.write("\n")
+            f.write(str(self.ob2.Name))
+            # f.writelines([str(self.ob1.Name), str(self.ob2.Name)])
+            # f.close()
+        # f = open("C:\\Users\\" + str(os.getlogin()) + "\\" + str(FreeCAD.ActiveDocument.Label) + "\\temp.txt", "w")
+        # f.writelines([str(self.ob1.Name),str(self.ob2.Name)])
+        # f.close()
+        print(self.ob1.Name)
+        print(self.ob2.Name)
 
     @staticmethod
     def recalculateMatingDirection(c):
