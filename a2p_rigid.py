@@ -337,10 +337,6 @@ class Rigid():
                 ChildObj = FreeCAD.ActiveDocument.getObject(str(dep.constraint.Object1))
                 ParentObj = FreeCAD.ActiveDocument.getObject(str(dep.constraint.Object2))
 
-                # print(ParentObj.Placement)
-                # print(ChildObj.Placement)
-                # print(foreignAxis)
-                # print(-foreignAxis+ChildObj.Placement.Base)
                 childPlacement = ChildObj.Placement.Base
                 parentPlacement = ParentObj.Placement.Base
 

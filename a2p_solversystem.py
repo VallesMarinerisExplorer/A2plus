@@ -71,6 +71,7 @@ class SolverSystem():
         self.stepCount = 0
         self.rigids = []        # list of rigid bodies
         self.linkinfo = []
+        self.alllinkinfo = []
         self.constraints = []
         self.objectNames = []
         self.mySOLVER_SPIN_ACCURACY = SOLVER_SPIN_ACCURACY
@@ -413,27 +414,20 @@ class SolverSystem():
         with open("C:\\Users\\" + str(os.getlogin()) + "\\" + str(FreeCAD.ActiveDocument.Label) + "\\temp.txt", "r") as f:
             lines = f.readlines()
         lines[0] = lines[0].replace("\n","")
-        for specificlinkinfo in linkinfo:
+
+        for specificlinkinfo in self.alllinkinfo:
             if list(specificlinkinfo.items())[-1][0] == lines[0] and specificlinkinfo[next(iter(specificlinkinfo))]['parent_object'] == lines[1] or \
                 list(specificlinkinfo.items())[-1][0] == lines[1] and specificlinkinfo[next(iter(specificlinkinfo))]['parent_object'] == lines[0]:
-                # print(specificlinkinfo)
-                print("FOUND SPECIFIC LINK")
-                print(list(specificlinkinfo.items())[-1][0])
-                print(lines[0])
-                print(specificlinkinfo[next(iter(specificlinkinfo))]['parent_object'])
-                print(lines[1])
-                print("DONE")
-                print(list(specificlinkinfo.items())[-1])
+
                 break
+            else:
+                print("ERROR: Link Not Found")
 
         link1, _ = list(specificlinkinfo.items())[-1]
         link2 = specificlinkinfo[next(iter(specificlinkinfo))]['parent_object']
         jointtype = specificlinkinfo[next(iter(specificlinkinfo))]['dependency_type']
         joint_name = specificlinkinfo[next(iter(specificlinkinfo))].get('joint_name', None)  # Assuming joint_name is part of the info
 
-        print(link1)
-        # print(link2)
-        # print(links)
         if link2 not in links:
             self.parent_link_name = link1
             self.child_link_name = link2
@@ -458,16 +452,10 @@ class SolverSystem():
                 child = joint.find('child')
                 parent = joint.find('parent')
 
-                # getting deleted after 2 children to og parent only!!!!!!!
-
-
                 if (child.get('link') == link1 and parent.get('link') == link2) or (child.get('link') == link2 and parent.get('link') == link1):
                     print("Let's delete this joint")
                     print(joint.get('name'))
-                    print(child.get('link'))
-                    print(link1)
-                    print(parent.get('link'))
-                    print(link2)
+
                     root.remove(joint)
                     childtodelete = child.get('link')
                     self.parent_link_name = parent.get('link')
@@ -476,17 +464,14 @@ class SolverSystem():
 
             for link in root.findall('link'):
                 if link.get('name') == childtodelete:
-                    print("Deleting")
-                    print(childtodelete)
+
                     root.remove(link)
                     break
                 childtodelete = ""
             tree.write(totalpath)
             newlinkinfo = specificlinkinfo
 
-            # print("JOINT NAME IN JOINTS")
-            # print("YOU NEED TO IMPLEMENT JOINT/LINK REMOVAL CODE HERE v")
-            # print("Removing " + joint_name)
+
             # remove_joint_and_link(root,joint_name)
         # else: # Elif link1 and link2 in links AND
         #     # print(specificlinkinfo)
@@ -516,13 +501,14 @@ class SolverSystem():
         #         print("I'm tired of this grandpa")
 
         # Foreign Axis has some errors sometimes
+        # print("HERE IS NEW LINK INFO")
+        # print(newlinkinfo)
+        # print("END NEW LINK INFO")
         foreign_axis = newlinkinfo[next(iter(newlinkinfo))]['foreign_axis']
         destination_axis = newlinkinfo[next(iter(newlinkinfo))]['destination_axis']
         ChildObjPlacement = FreeCAD.ActiveDocument.getObject(self.child_link_name).Placement.Base
 
         ParentObjPlacement = FreeCAD.ActiveDocument.getObject(self.parent_link_name).Placement.Base
-
-        # joint_name = f"{self.parent_link_name}_to_{self.child_link_name}"
 
         if jointtype == 'axial':
             joint = ET.Element("joint", name=joint_name, type="continuous")
@@ -541,10 +527,6 @@ class SolverSystem():
                                        foreign_axis[2]))
 
         else:
-            print(type(LastLinkXYZ))
-            print(type(LastLinkXYZ))
-            print(type(LastLinkXYZ))
-            print(type(LastLinkXYZ))
             xyzlast = LastLinkXYZ(root,self.parent_link_name)
             origin = ET.SubElement(joint, "origin", rpy="0 0 0",
                                    xyz=str(xyzlast[0]+foreign_axis[0]) + " " + str(xyzlast[1]+foreign_axis[1]) + " " + str(xyzlast[2]+
@@ -569,11 +551,9 @@ class SolverSystem():
         child_link = ET.Element("link", name=self.child_link_name)
         visual = ET.SubElement(child_link, "visual")
         origin1 = ET.SubElement(visual, "origin")
-        # print(destination_axis)
         # SIGN ON SECOND ENTRY IS FLIPPED FOR SOME REASON
         # THE DESTINATION AXIS IS THE UNIT VECTOR THAT THE CHILD OBJECT HAS BEEN ROTATED TO WITH RESPECT
         # TO HOW IT WAS LAID OUT ORIGINALLY IN THE ORIGINAL FREECAD DOCUMENT
-        # print(foreign_axis)
         origin1.set("xyz", str(-foreign_axis[0]) + " " + str(-foreign_axis[1]) + " " + str(-foreign_axis[2]))
         origin1.set("rpy", "0 0 0")
         geometry = ET.SubElement(visual, "geometry")
@@ -919,6 +899,7 @@ class SolverSystem():
                                             # where not a final solution is required.
             if linkinfoinst == 99999:
                 # If the constraint is created between two child objects
+                print("PROBLEM")
                 break
             if linkinfoinst not in self.linkinfo:
                 self.linkinfo.append(linkinfoinst)
@@ -1062,7 +1043,7 @@ to a fixed part!
                         addList.add(linkedRig)
                         newRigFound = True
                         break
-            
+
             if not newRigFound:
                 # If no new rigids found, consider candidates for addition to the work list
                 for rig in workList:
@@ -1073,9 +1054,15 @@ to a fixed part!
                 for rig in addList:
                     rig.updateCachedState(rig.placement)
                 workList.extend(addList)
+
                 solutionFound, linkinfo1 = self.calculateWorkList(doc, workList)
+                first_key = next(iter(linkinfo1))
+
+                if linkinfo1 not in self.alllinkinfo and linkinfo1[first_key]['foreign_axis'] is not None:
+                    self.alllinkinfo.append(linkinfo1)
 
                 if not solutionFound:
+                    print("NO SOLUTION FOUND")
                     return False
             else:
                 break
