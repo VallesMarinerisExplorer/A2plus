@@ -18,6 +18,10 @@
 ![Image](Example_Assemblies/CraneAssembly/SimpleTruck.png)
 [![Watch the video](Example_Assemblies/CraneAssembly/TruckDemo3.gif)
 
+### Prototype Crane Truck:
+![Image](Example_Assemblies/CraneAssembly2/CraneAssembly2.png)
+[![Watch the video](Example_Assemblies/CraneAssembly2/CraneAssembly2.gif)
+
 ### Here is a FreeCAD A2Plus Assembly:
 ![Image](freecadchain.png)
 
