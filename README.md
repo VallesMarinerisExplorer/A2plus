@@ -35,7 +35,7 @@ This fork also supports the creation of assembly hierarchies in the tree structu
 
 ![Image](Hierarchy.png)
 
-The green part is the actual constraint info, listed directly beneath the child. You can click on these once to see parent, child, joint type etc.
+The green part is the actual constraint info, listed directly beneath the child. You can click on these once to see parent, child, joint type etc. For instance, Revolute_continuous_001 connects Platform_001 (child) to CraneBody2_001 (parent). 
 
 ### Here is a link to Bullet/PyBullet for the physics simulation aspect:
 https://github.com/bulletphysics/bullet3
