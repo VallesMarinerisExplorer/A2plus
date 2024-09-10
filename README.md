@@ -14,6 +14,9 @@
 [![Watch the video](Example_Assemblies/HelicopterAssembly2/BladeAngles.gif)
 [![Watch the video](Example_Assemblies/HelicopterAssembly2/BladeSpin.gif)
 
+### We can simulate a rover:
+![Image](Example_Assemblies/Rover/RoverGif.gif)
+
 ### Simple Truck:
 ![Image](Example_Assemblies/CraneAssembly/SimpleTruck.png)
 [![Watch the video](Example_Assemblies/CraneAssembly/TruckDemo3.gif)
